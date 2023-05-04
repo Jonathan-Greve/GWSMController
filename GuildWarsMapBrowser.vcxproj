@@ -1,0 +1,457 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <RootNamespace>GuildWarsMapBrowser</RootNamespace>
+    <ProjectGuid>{f754687f-d82a-40c0-bf99-bc2143e8afb8}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg">
+    <VcpkgEnabled>false</VcpkgEnabled>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\SourceFiles;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\DirectXTex;C:\Users\jonag\source\repos\GuildWarsMapBrowser\SourceFiles;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;gdi32.lib;gdiplus.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalOptions>/Zc:__cplusplus %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>d3d11.lib;dxgi.lib;dxguid.lib;uuid.lib;kernel32.lib;user32.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="BlendStateManager.h" />
+    <ClInclude Include="DearImGui\imconfig.h" />
+    <ClInclude Include="DearImGui\imgui.h" />
+    <ClInclude Include="DearImGui\imgui_impl_dx11.h" />
+    <ClInclude Include="DearImGui\imgui_impl_win32.h" />
+    <ClInclude Include="DearImGui\imgui_internal.h" />
+    <ClInclude Include="DearImGui\imstb_rectpack.h" />
+    <ClInclude Include="DearImGui\imstb_textedit.h" />
+    <ClInclude Include="DearImGui\imstb_truetype.h" />
+    <ClInclude Include="DearImGui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="DefaultPixelShader.h" />
+    <ClInclude Include="DepthStencilStateManager.h" />
+    <ClInclude Include="DirectXTex\BC.h" />
+    <ClInclude Include="DirectXTex\DDS.h" />
+    <ClInclude Include="DirectXTex\DDSTextureLoader11.h" />
+    <ClInclude Include="DirectXTex\DirectXTex.h" />
+    <ClInclude Include="DirectXTex\DirectXTexP.h" />
+    <ClInclude Include="DirectXTex\filters.h" />
+    <ClInclude Include="DirectXTex\FlexibleVertexFormat.h" />
+    <ClInclude Include="DirectXTex\scoped.h" />
+    <ClInclude Include="draw_chunk_20000000.h" />
+    <ClInclude Include="draw_chunk_20000003.h" />
+    <ClInclude Include="draw_left_panel.h" />
+    <ClInclude Include="draw_map_info_chunk.h" />
+    <ClInclude Include="draw_props_filenames_panel.h" />
+    <ClInclude Include="draw_props_info_panel.h" />
+    <ClInclude Include="draw_prop_model_info.h" />
+    <ClInclude Include="draw_right_panel.h" />
+    <ClInclude Include="draw_terrain_chunk.h" />
+    <ClInclude Include="draw_texture_panel.h" />
+    <ClInclude Include="FFNA_ModelFile.h" />
+    <ClInclude Include="ImGuiFileDialog-Lib_Only\dirent\dirent.h" />
+    <ClInclude Include="ImGuiFileDialog-Lib_Only\ImGuiFileDialog.h" />
+    <ClInclude Include="ImGuiFileDialog-Lib_Only\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="maps_constant_data.h" />
+    <ClInclude Include="PerTerrainCB.h" />
+    <ClInclude Include="RasterizerStateManager.h" />
+    <ClInclude Include="SourceFiles\AtexAsm.h" />
+    <ClInclude Include="SourceFiles\AtexReader.h" />
+    <ClInclude Include="SourceFiles\Box.h" />
+    <ClInclude Include="SourceFiles\Camera.h" />
+    <ClInclude Include="SourceFiles\CheckerboardTexture.h" />
+    <ClInclude Include="SourceFiles\ConstantBufferManager.h" />
+    <ClInclude Include="SourceFiles\DATManager.h" />
+    <ClInclude Include="SourceFiles\DeviceResources.h" />
+    <ClInclude Include="SourceFiles\DirectionalLight.h" />
+    <ClInclude Include="SourceFiles\draw_dat_browser.h" />
+    <ClInclude Include="SourceFiles\draw_dat_load_progress_bar.h" />
+    <ClInclude Include="SourceFiles\draw_gui_for_open_dat_file.h" />
+    <ClInclude Include="SourceFiles\draw_ui.h" />
+    <ClInclude Include="SourceFiles\DXMathHelpers.h" />
+    <ClInclude Include="SourceFiles\FFNAType.h" />
+    <ClInclude Include="SourceFiles\FFNA_MapFile.h" />
+    <ClInclude Include="SourceFiles\GuiGlobalConstants.h" />
+    <ClInclude Include="SourceFiles\GWUnpacker.h" />
+    <ClInclude Include="SourceFiles\InputManager.h" />
+    <ClInclude Include="SourceFiles\Line.h" />
+    <ClInclude Include="SourceFiles\MapBrowser.h" />
+    <ClInclude Include="SourceFiles\MapRenderer.h" />
+    <ClInclude Include="SourceFiles\Mesh.h" />
+    <ClInclude Include="SourceFiles\MeshInstance.h" />
+    <ClInclude Include="SourceFiles\MeshManager.h" />
+    <ClInclude Include="SourceFiles\MouseMoveListener.h" />
+    <ClInclude Include="SourceFiles\pch.h" />
+    <ClInclude Include="SourceFiles\PerCameraCB.h" />
+    <ClInclude Include="SourceFiles\PerFrameCB.h" />
+    <ClInclude Include="SourceFiles\PerObjectCB.h" />
+    <ClInclude Include="SourceFiles\PixelShader.h" />
+    <ClInclude Include="SourceFiles\RenderBatch.h" />
+    <ClInclude Include="SourceFiles\RenderCommand.h" />
+    <ClInclude Include="SourceFiles\RenderConstants.h" />
+    <ClInclude Include="SourceFiles\Sphere.h" />
+    <ClInclude Include="SourceFiles\StepTimer.h" />
+    <ClInclude Include="SourceFiles\Terrain.h" />
+    <ClInclude Include="SourceFiles\TextureManager.h" />
+    <ClInclude Include="SourceFiles\Vertex.h" />
+    <ClInclude Include="SourceFiles\VertexShader.h" />
+    <ClInclude Include="SourceFiles\xentax.h" />
+    <ClInclude Include="TerrainCheckeredPixelShader.h" />
+    <ClInclude Include="TerrainDefaultPixelShader.h" />
+    <ClInclude Include="TerrainTexturedPixelShader.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="BlendStateManager.cpp" />
+    <ClCompile Include="DearImGui\imgui.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_impl_dx11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_impl_win32.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DearImGui\misc\cpp\imgui_stdlib.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DepthStencilStateManager.cpp" />
+    <ClCompile Include="DirectXTex\BC.cpp" />
+    <ClCompile Include="DirectXTex\BC4BC5.cpp" />
+    <ClCompile Include="DirectXTex\BC6HBC7.cpp" />
+    <ClCompile Include="DirectXTex\DDSTextureLoader11.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DirectXTex\DirectXTexCompress.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DirectXTex\DirectXTexConvert.cpp" />
+    <ClCompile Include="DirectXTex\DirectXTexD3D11.cpp" />
+    <ClCompile Include="DirectXTex\DirectXTexDDS.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DirectXTex\DirectXTexImage.cpp" />
+    <ClCompile Include="DirectXTex\DirectXTexMipmaps.cpp" />
+    <ClCompile Include="DirectXTex\DirectXTexUtil.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="DirectXTex\DirectXTexWIC.cpp" />
+    <ClCompile Include="draw_chunk_20000000.cpp" />
+    <ClCompile Include="draw_chunk_20000003.cpp" />
+    <ClCompile Include="draw_left_panel.cpp" />
+    <ClCompile Include="draw_map_info_chunk.cpp" />
+    <ClCompile Include="draw_props_filenames_panel.cpp" />
+    <ClCompile Include="draw_props_info_panel.cpp" />
+    <ClCompile Include="draw_prop_model_info.cpp" />
+    <ClCompile Include="draw_right_panel.cpp" />
+    <ClCompile Include="draw_terrain_chunk.cpp" />
+    <ClCompile Include="draw_texture_panel.cpp" />
+    <ClCompile Include="FFNA_ModelFile.cpp" />
+    <ClCompile Include="ImGuiFileDialog-Lib_Only\ImGuiFileDialog.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="PerTerrainCB.cpp" />
+    <ClCompile Include="RasterizerStateManager.cpp" />
+    <ClCompile Include="SourceFiles\AtexAsm.cpp" />
+    <ClCompile Include="SourceFiles\AtexReader.cpp" />
+    <ClCompile Include="SourceFiles\Box.cpp" />
+    <ClCompile Include="SourceFiles\Camera.cpp" />
+    <ClCompile Include="SourceFiles\CheckerboardTexture.cpp" />
+    <ClCompile Include="SourceFiles\ConstantBufferManager.cpp" />
+    <ClCompile Include="SourceFiles\DATManager.cpp" />
+    <ClCompile Include="SourceFiles\DeviceResources.cpp" />
+    <ClCompile Include="SourceFiles\DirectionalLight.cpp" />
+    <ClCompile Include="SourceFiles\draw_dat_browser.cpp" />
+    <ClCompile Include="SourceFiles\draw_dat_load_progress_bar.cpp" />
+    <ClCompile Include="SourceFiles\draw_gui_for_open_dat_file.cpp" />
+    <ClCompile Include="SourceFiles\draw_ui.cpp" />
+    <ClCompile Include="SourceFiles\DXMathHelpers.cpp" />
+    <ClCompile Include="SourceFiles\FFNA_MapFile.cpp" />
+    <ClCompile Include="SourceFiles\GuiGlobalConstants.cpp" />
+    <ClCompile Include="SourceFiles\GWUnpacker.cpp" />
+    <ClCompile Include="SourceFiles\InputManager.cpp" />
+    <ClCompile Include="SourceFiles\Line.cpp" />
+    <ClCompile Include="SourceFiles\Main.cpp" />
+    <ClCompile Include="SourceFiles\MapBrowser.cpp" />
+    <ClCompile Include="SourceFiles\MapRenderer.cpp" />
+    <ClCompile Include="SourceFiles\Mesh.cpp" />
+    <ClCompile Include="SourceFiles\MeshInstance.cpp" />
+    <ClCompile Include="SourceFiles\MeshManager.cpp" />
+    <ClCompile Include="SourceFiles\MouseMoveListener.cpp" />
+    <ClCompile Include="SourceFiles\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\PerCameraCB.cpp" />
+    <ClCompile Include="SourceFiles\PerFrameCB.cpp" />
+    <ClCompile Include="SourceFiles\PerObjectCB.cpp" />
+    <ClCompile Include="SourceFiles\PixelShader.cpp" />
+    <ClCompile Include="SourceFiles\RenderBatch.cpp" />
+    <ClCompile Include="SourceFiles\RenderCommand.cpp" />
+    <ClCompile Include="SourceFiles\RenderConstants.cpp" />
+    <ClCompile Include="SourceFiles\Sphere.cpp" />
+    <ClCompile Include="SourceFiles\Terrain.cpp" />
+    <ClCompile Include="SourceFiles\TextureManager.cpp" />
+    <ClCompile Include="SourceFiles\Vertex.cpp" />
+    <ClCompile Include="SourceFiles\VertexShader.cpp" />
+    <ClCompile Include="SourceFiles\xentax.cpp" />
+    <FxCompile Include="TerrainTexturedPixelShader.hlsl">
+      <FileType>Document</FileType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SourceFiles\resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="SourceFiles\directx.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="SourceFiles\settings.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="DearImGui\LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DirectXTex\DirectXTex.inl" />
+    <None Include="ImGuiFileDialog-Lib_Only\dirent\ChangeLog" />
+    <None Include="ImGuiFileDialog-Lib_Only\dirent\LICENSE" />
+    <None Include="ImGuiFileDialog-Lib_Only\dirent\README.md" />
+    <None Include="ImGuiFileDialog-Lib_Only\LICENSE" />
+    <None Include="ImGuiFileDialog-Lib_Only\README.md" />
+    <None Include="SourceFiles\imgui.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="SourceFiles\DefaultPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="SourceFiles\VertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
+    <FxCompile Include="TerrainCheckeredPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="TerrainDefaultPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+    </FxCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
