@@ -1,17 +1,16 @@
 #include "pch.h"
 #include "draw_dat_load_progress_bar.h"
-#include "GuiGlobalConstants.h"
 
 void draw_dat_load_progress_bar(int num_files_read, int total_num_files)
 {
+    constexpr int left_offset = 0;
+    constexpr int right_offset = 0;
+    constexpr int padding = 8;
+
     ImVec2 progress_bar_window_size =
-      ImVec2(ImGui::GetIO().DisplaySize.x -
-               (GuiGlobalConstants::left_panel_width + GuiGlobalConstants::panel_padding * 2) -
-               (GuiGlobalConstants::right_panel_width + GuiGlobalConstants::panel_padding * 2),
-             30);
+      ImVec2(ImGui::GetIO().DisplaySize.x - (left_offset + padding * 2) - (right_offset + padding * 2), 30);
     ImVec2 progress_bar_window_pos = ImVec2(
-      GuiGlobalConstants::left_panel_width + GuiGlobalConstants::panel_padding * 2,
-      ImGui::GetIO().DisplaySize.y - progress_bar_window_size.y - GuiGlobalConstants::panel_padding - 2);
+      left_offset + padding * 2, ImGui::GetIO().DisplaySize.y - progress_bar_window_size.y - padding - 2);
     ImGui::SetNextWindowPos(progress_bar_window_pos);
     ImGui::SetNextWindowSize(progress_bar_window_size);
     ImGui::Begin("Progress Bar", NULL,

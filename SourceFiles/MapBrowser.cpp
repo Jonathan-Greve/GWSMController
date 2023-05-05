@@ -4,8 +4,6 @@
 
 #include "pch.h"
 #include "MapBrowser.h"
-#include "draw_dat_browser.h"
-#include "GuiGlobalConstants.h"
 #include "draw_gui_for_open_dat_file.h"
 #include "draw_dat_load_progress_bar.h"
 #include "draw_ui.h"

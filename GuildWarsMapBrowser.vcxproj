@@ -23,6 +23,7 @@
     <ProjectGuid>{f754687f-d82a-40c0-bf99-bc2143e8afb8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>GWSMController</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -88,8 +89,8 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\SourceFiles;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\DearImGui;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -132,8 +133,8 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GuildWarsMapBrowser\DirectXTex;C:\Users\jonag\source\repos\GuildWarsMapBrowser\SourceFiles;C:\Users\jonag\source\repos\GuildWarsMapBrowser\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GuildWarsMapBrowser\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GWSMController\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -203,16 +204,6 @@
     <ClInclude Include="DirectXTex\filters.h" />
     <ClInclude Include="DirectXTex\FlexibleVertexFormat.h" />
     <ClInclude Include="DirectXTex\scoped.h" />
-    <ClInclude Include="draw_chunk_20000000.h" />
-    <ClInclude Include="draw_chunk_20000003.h" />
-    <ClInclude Include="draw_left_panel.h" />
-    <ClInclude Include="draw_map_info_chunk.h" />
-    <ClInclude Include="draw_props_filenames_panel.h" />
-    <ClInclude Include="draw_props_info_panel.h" />
-    <ClInclude Include="draw_prop_model_info.h" />
-    <ClInclude Include="draw_right_panel.h" />
-    <ClInclude Include="draw_terrain_chunk.h" />
-    <ClInclude Include="draw_texture_panel.h" />
     <ClInclude Include="FFNA_ModelFile.h" />
     <ClInclude Include="ImGuiFileDialog-Lib_Only\dirent\dirent.h" />
     <ClInclude Include="ImGuiFileDialog-Lib_Only\ImGuiFileDialog.h" />
@@ -229,14 +220,12 @@
     <ClInclude Include="SourceFiles\DATManager.h" />
     <ClInclude Include="SourceFiles\DeviceResources.h" />
     <ClInclude Include="SourceFiles\DirectionalLight.h" />
-    <ClInclude Include="SourceFiles\draw_dat_browser.h" />
     <ClInclude Include="SourceFiles\draw_dat_load_progress_bar.h" />
     <ClInclude Include="SourceFiles\draw_gui_for_open_dat_file.h" />
     <ClInclude Include="SourceFiles\draw_ui.h" />
     <ClInclude Include="SourceFiles\DXMathHelpers.h" />
     <ClInclude Include="SourceFiles\FFNAType.h" />
     <ClInclude Include="SourceFiles\FFNA_MapFile.h" />
-    <ClInclude Include="SourceFiles\GuiGlobalConstants.h" />
     <ClInclude Include="SourceFiles\GWUnpacker.h" />
     <ClInclude Include="SourceFiles\InputManager.h" />
     <ClInclude Include="SourceFiles\Line.h" />
@@ -334,16 +323,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="DirectXTex\DirectXTexWIC.cpp" />
-    <ClCompile Include="draw_chunk_20000000.cpp" />
-    <ClCompile Include="draw_chunk_20000003.cpp" />
-    <ClCompile Include="draw_left_panel.cpp" />
-    <ClCompile Include="draw_map_info_chunk.cpp" />
-    <ClCompile Include="draw_props_filenames_panel.cpp" />
-    <ClCompile Include="draw_props_info_panel.cpp" />
-    <ClCompile Include="draw_prop_model_info.cpp" />
-    <ClCompile Include="draw_right_panel.cpp" />
-    <ClCompile Include="draw_terrain_chunk.cpp" />
-    <ClCompile Include="draw_texture_panel.cpp" />
     <ClCompile Include="FFNA_ModelFile.cpp" />
     <ClCompile Include="ImGuiFileDialog-Lib_Only\ImGuiFileDialog.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -362,13 +341,11 @@
     <ClCompile Include="SourceFiles\DATManager.cpp" />
     <ClCompile Include="SourceFiles\DeviceResources.cpp" />
     <ClCompile Include="SourceFiles\DirectionalLight.cpp" />
-    <ClCompile Include="SourceFiles\draw_dat_browser.cpp" />
     <ClCompile Include="SourceFiles\draw_dat_load_progress_bar.cpp" />
     <ClCompile Include="SourceFiles\draw_gui_for_open_dat_file.cpp" />
     <ClCompile Include="SourceFiles\draw_ui.cpp" />
     <ClCompile Include="SourceFiles\DXMathHelpers.cpp" />
     <ClCompile Include="SourceFiles\FFNA_MapFile.cpp" />
-    <ClCompile Include="SourceFiles\GuiGlobalConstants.cpp" />
     <ClCompile Include="SourceFiles\GWUnpacker.cpp" />
     <ClCompile Include="SourceFiles\InputManager.cpp" />
     <ClCompile Include="SourceFiles\Line.cpp" />
@@ -402,6 +379,10 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -431,24 +412,40 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="SourceFiles\VertexShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="TerrainCheckeredPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="TerrainDefaultPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
