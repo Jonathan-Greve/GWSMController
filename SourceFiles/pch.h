@@ -76,6 +76,16 @@
 #include <dxgidebug.h>
 #endif
 
+//Other
+// <instance_id, party_id>
+using InstancePartyId = std::pair<uint32_t, uint32_t>;
+#include "get_first_integer_in_string.h"
+#include "GW_skill.h"
+#include "GWCA_Maps.h"
+
+// Shared memory
+#include "GWIPC.h"
+
 namespace DX
 {
 // Helper class for COM exceptions

@@ -85,11 +85,11 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
-    <VcpkgEnabled>false</VcpkgEnabled>
+    <VcpkgEnabled>true</VcpkgEnabled>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\DearImGui;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\Jonathan-Greve\GWIPC\GWIPC;C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\DearImGui;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -133,7 +133,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GWSMController\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\jonag\source\repos\Jonathan-Greve\GWIPC\GWIPC;C:\Users\jonag\source\repos\GWSMController\DirectXTex;C:\Users\jonag\source\repos\GWSMController\SourceFiles;C:\Users\jonag\source\repos\GWSMController\ImGuiFileDialog-Lib_Only;C:\Users\jonag\source\repos\GWSMController\DearImGui;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level4</WarningLevel>
@@ -216,6 +216,7 @@
     <ClInclude Include="SourceFiles\Box.h" />
     <ClInclude Include="SourceFiles\Camera.h" />
     <ClInclude Include="SourceFiles\CheckerboardTexture.h" />
+    <ClInclude Include="SourceFiles\ConnectionData.h" />
     <ClInclude Include="SourceFiles\ConstantBufferManager.h" />
     <ClInclude Include="SourceFiles\DATManager.h" />
     <ClInclude Include="SourceFiles\DeviceResources.h" />
@@ -226,15 +227,22 @@
     <ClInclude Include="SourceFiles\DXMathHelpers.h" />
     <ClInclude Include="SourceFiles\FFNAType.h" />
     <ClInclude Include="SourceFiles\FFNA_MapFile.h" />
+    <ClInclude Include="SourceFiles\get_filenames.h" />
+    <ClInclude Include="SourceFiles\get_first_integer_in_string.h" />
+    <ClInclude Include="SourceFiles\GWCA_Maps.h" />
     <ClInclude Include="SourceFiles\GWUnpacker.h" />
+    <ClInclude Include="SourceFiles\GW_skill.h" />
     <ClInclude Include="SourceFiles\InputManager.h" />
+    <ClInclude Include="SourceFiles\InstanceParty.h" />
     <ClInclude Include="SourceFiles\Line.h" />
+    <ClInclude Include="SourceFiles\LoadTextureFromFile.h" />
     <ClInclude Include="SourceFiles\MapBrowser.h" />
     <ClInclude Include="SourceFiles\MapRenderer.h" />
     <ClInclude Include="SourceFiles\Mesh.h" />
     <ClInclude Include="SourceFiles\MeshInstance.h" />
     <ClInclude Include="SourceFiles\MeshManager.h" />
     <ClInclude Include="SourceFiles\MouseMoveListener.h" />
+    <ClInclude Include="SourceFiles\PartyManager.h" />
     <ClInclude Include="SourceFiles\pch.h" />
     <ClInclude Include="SourceFiles\PerCameraCB.h" />
     <ClInclude Include="SourceFiles\PerFrameCB.h" />
@@ -244,6 +252,7 @@
     <ClInclude Include="SourceFiles\RenderCommand.h" />
     <ClInclude Include="SourceFiles\RenderConstants.h" />
     <ClInclude Include="SourceFiles\Sphere.h" />
+    <ClInclude Include="SourceFiles\stb_image.h" />
     <ClInclude Include="SourceFiles\StepTimer.h" />
     <ClInclude Include="SourceFiles\Terrain.h" />
     <ClInclude Include="SourceFiles\TextureManager.h" />
@@ -337,6 +346,7 @@
     <ClCompile Include="SourceFiles\Box.cpp" />
     <ClCompile Include="SourceFiles\Camera.cpp" />
     <ClCompile Include="SourceFiles\CheckerboardTexture.cpp" />
+    <ClCompile Include="SourceFiles\ConnectionData.cpp" />
     <ClCompile Include="SourceFiles\ConstantBufferManager.cpp" />
     <ClCompile Include="SourceFiles\DATManager.cpp" />
     <ClCompile Include="SourceFiles\DeviceResources.cpp" />
@@ -346,8 +356,11 @@
     <ClCompile Include="SourceFiles\draw_ui.cpp" />
     <ClCompile Include="SourceFiles\DXMathHelpers.cpp" />
     <ClCompile Include="SourceFiles\FFNA_MapFile.cpp" />
+    <ClCompile Include="SourceFiles\get_first_integer_in_string.cpp" />
     <ClCompile Include="SourceFiles\GWUnpacker.cpp" />
+    <ClCompile Include="SourceFiles\GW_skill.cpp" />
     <ClCompile Include="SourceFiles\InputManager.cpp" />
+    <ClCompile Include="SourceFiles\InstanceParty.cpp" />
     <ClCompile Include="SourceFiles\Line.cpp" />
     <ClCompile Include="SourceFiles\Main.cpp" />
     <ClCompile Include="SourceFiles\MapBrowser.cpp" />
@@ -356,6 +369,7 @@
     <ClCompile Include="SourceFiles\MeshInstance.cpp" />
     <ClCompile Include="SourceFiles\MeshManager.cpp" />
     <ClCompile Include="SourceFiles\MouseMoveListener.cpp" />
+    <ClCompile Include="SourceFiles\PartyManager.cpp" />
     <ClCompile Include="SourceFiles\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -447,6 +461,11 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jonathan-Greve\GWIPC\GWIPC\GWIPC.vcxproj">
+      <Project>{f1aaae72-c9c9-44b6-9c49-c7403c14883a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

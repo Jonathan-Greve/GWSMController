@@ -89,6 +89,15 @@
     <Filter Include="Render\Blend">
       <UniqueIdentifier>{cc7be27a-d599-44cf-a57b-14e0e22d12f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Party thread">
+      <UniqueIdentifier>{4de0ebb6-5339-450b-b029-3798fb11a45b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConnectionData thread">
+      <UniqueIdentifier>{c7911b8a-4db5-46bf-8bf8-94b8f857448e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Party Manager thread">
+      <UniqueIdentifier>{5a6b902c-60b6-4c31-97e1-ccbb6fa2866f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DearImGui\imconfig.h">
@@ -294,6 +303,33 @@
     <ClInclude Include="SourceFiles\draw_gui_for_open_dat_file.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\InstanceParty.h">
+      <Filter>Party thread</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\ConnectionData.h">
+      <Filter>ConnectionData thread</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\PartyManager.h">
+      <Filter>Party Manager thread</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\get_filenames.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\get_first_integer_in_string.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\GW_skill.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\GWCA_Maps.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\LoadTextureFromFile.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\stb_image.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DearImGui\imgui.cpp">
@@ -481,6 +517,21 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\draw_gui_for_open_dat_file.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\InstanceParty.cpp">
+      <Filter>Party thread</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\ConnectionData.cpp">
+      <Filter>ConnectionData thread</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\PartyManager.cpp">
+      <Filter>Party Manager thread</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\get_first_integer_in_string.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\GW_skill.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
