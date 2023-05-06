@@ -8,6 +8,8 @@
 
 using namespace DirectX;
 
+bool is_shutting_down = false;
+
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wcovered-switch-default"
 #pragma clang diagnostic ignored "-Wswitch-enum"

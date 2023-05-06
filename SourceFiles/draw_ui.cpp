@@ -2,11 +2,15 @@
 #include "draw_ui.h"
 #include "draw_dat_load_progress_bar.h"
 #include "draw_gui_for_open_dat_file.h"
+#include "ShowClientsConnected.h"
+#include "ShowParties.h"
 
 extern FileType selected_file_type;
 
 void draw_ui(InitializationState initialization_state, int dat_files_to_read, int dat_total_files,
-             DATManager& dat_manager, MapRenderer* map_renderer)
+             DATManager& dat_manager, MapRenderer* map_renderer, ImGuiStates& imgui_states,
+             ConnectionData& connection_data, PartyManager& party_manager,
+             const std::array<GW_skill, 3432>& skills)
 {
     if (! gw_dat_path_set)
     {
@@ -20,7 +24,8 @@ void draw_ui(InitializationState initialization_state, int dat_files_to_read, in
         }
         if (initialization_state == InitializationState::Completed)
         {
-            // UI logic goes here
+            ShowClientsConnected()(imgui_states, connection_data, skills);
+            ShowParties()(imgui_states, connection_data, party_manager, skills);
         }
     }
 }

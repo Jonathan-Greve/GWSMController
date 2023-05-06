@@ -70,6 +70,14 @@ void MapBrowser::Initialize(HWND window, int width, int height)
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(window);
     ImGui_ImplDX11_Init(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
+
+    // Init ConnectionData
+    m_connection_data_thread = std::thread(&ConnectionData::run, &m_connection_data);
+
+    // Init Party Manager
+    m_party_manager_thread = std::thread(&PartyManager::run, &m_party_manager, std::ref(m_connection_data));
+
+    GW_skill::load_gw_skill_data(m_skills, m_deviceResources->GetD3DDevice());
 }
 
 #pragma region Frame Update
@@ -123,7 +131,8 @@ void MapBrowser::Render()
     ImGui::NewFrame();
 
     draw_ui(m_dat_manager.m_initialization_state, m_dat_manager.get_num_files_type_read(),
-            m_dat_manager.get_num_files(), m_dat_manager, m_map_renderer.get());
+            m_dat_manager.get_num_files(), m_dat_manager, m_map_renderer.get(), m_imgui_states,
+            m_connection_data, m_party_manager, m_skills);
 
     static bool show_demo_window = false;
     if (show_demo_window)

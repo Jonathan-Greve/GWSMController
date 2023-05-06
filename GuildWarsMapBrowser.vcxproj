@@ -232,6 +232,7 @@
     <ClInclude Include="SourceFiles\GWCA_Maps.h" />
     <ClInclude Include="SourceFiles\GWUnpacker.h" />
     <ClInclude Include="SourceFiles\GW_skill.h" />
+    <ClInclude Include="SourceFiles\ImGuiStates.h" />
     <ClInclude Include="SourceFiles\InputManager.h" />
     <ClInclude Include="SourceFiles\InstanceParty.h" />
     <ClInclude Include="SourceFiles\Line.h" />
@@ -251,6 +252,8 @@
     <ClInclude Include="SourceFiles\RenderBatch.h" />
     <ClInclude Include="SourceFiles\RenderCommand.h" />
     <ClInclude Include="SourceFiles\RenderConstants.h" />
+    <ClInclude Include="SourceFiles\ShowClientsConnected.h" />
+    <ClInclude Include="SourceFiles\ShowParties.h" />
     <ClInclude Include="SourceFiles\Sphere.h" />
     <ClInclude Include="SourceFiles\stb_image.h" />
     <ClInclude Include="SourceFiles\StepTimer.h" />
@@ -359,6 +362,7 @@
     <ClCompile Include="SourceFiles\get_first_integer_in_string.cpp" />
     <ClCompile Include="SourceFiles\GWUnpacker.cpp" />
     <ClCompile Include="SourceFiles\GW_skill.cpp" />
+    <ClCompile Include="SourceFiles\ImGuiStates.cpp" />
     <ClCompile Include="SourceFiles\InputManager.cpp" />
     <ClCompile Include="SourceFiles\InstanceParty.cpp" />
     <ClCompile Include="SourceFiles\Line.cpp" />
@@ -381,6 +385,8 @@
     <ClCompile Include="SourceFiles\RenderBatch.cpp" />
     <ClCompile Include="SourceFiles\RenderCommand.cpp" />
     <ClCompile Include="SourceFiles\RenderConstants.cpp" />
+    <ClCompile Include="SourceFiles\ShowClientsConnected.cpp" />
+    <ClCompile Include="SourceFiles\ShowParties.cpp" />
     <ClCompile Include="SourceFiles\Sphere.cpp" />
     <ClCompile Include="SourceFiles\Terrain.cpp" />
     <ClCompile Include="SourceFiles\TextureManager.cpp" />

@@ -10,6 +10,9 @@
 #include "Camera.h"
 #include "DATManager.h"
 #include "MapRenderer.h"
+#include "ConnectionData.h"
+#include "PartyManager.h"
+#include "ImGuiStates.h"
 
 // A basic MapBrowser implementation that creates a D3D11 device and
 // provides a MapBrowser loop.
@@ -69,4 +72,15 @@ private:
     DATManager m_dat_manager;
 
     std::unique_ptr<MapRenderer> m_map_renderer;
+
+    // Guild wars interaction
+    ConnectionData m_connection_data;
+    PartyManager m_party_manager;
+
+    std::thread m_party_manager_thread;
+    std::thread m_connection_data_thread;
+
+    std::array<GW_skill, 3432> m_skills;
+
+    ImGuiStates m_imgui_states;
 };

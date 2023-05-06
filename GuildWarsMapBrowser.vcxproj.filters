@@ -330,6 +330,15 @@
     <ClInclude Include="SourceFiles\stb_image.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\ImGuiStates.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\ShowClientsConnected.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\ShowParties.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DearImGui\imgui.cpp">
@@ -532,6 +541,15 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\GW_skill.cpp">
       <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\ImGuiStates.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\ShowClientsConnected.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\ShowParties.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
