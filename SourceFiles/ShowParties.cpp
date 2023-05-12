@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ShowParties.h"
+#include "maps_constant_data.h"
 
 void set_map_to_render(DATManager& dat_manager, int map_file_hash, MapRenderer* map_renderer)
 {
@@ -341,7 +342,39 @@ void ShowParties::operator()(ImGuiStates& imgui_states, ConnectionData& connecti
                     ! parties_client_names.contains(imgui_states.selected_party))
                 {
                     imgui_states.selected_party = party_id;
-                    set_map_to_render(dat_manager, 0x1b97d, map_renderer); // TODO: use map hash from party
+
+                    const auto client_data =
+                      connection_data.get_client_data(*client_names.begin(), client_data_buffer_);
+                    const auto map_id = client_data->instance()->map_id();
+                    auto map_file_hash = client_data->instance()->file_hash();
+
+                    if (map_file_hash <= 0)
+                    {
+                        // Iterate over the constant_maps_info map
+                        for (const auto& entry : constant_maps_info)
+                        {
+                            // Iterate over the vector of MapConstantInfo structs in each entry
+                            for (const auto& info : entry.second)
+                            {
+                                // If the map_id matches
+                                if (info.map_id == map_id)
+                                {
+                                    // Assign the file_hash of this entry to map_file_hash
+                                    map_file_hash = info.file_hash;
+                                    // Stop searching once a match is found
+                                    break;
+                                }
+                            }
+
+                            // If a valid file hash has been found, break the outer loop as well
+                            if (map_file_hash > 0)
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    set_map_to_render(dat_manager, map_file_hash, map_renderer);
                 }
             }
             ImGui::EndChild();
