@@ -341,7 +341,7 @@ void ShowParties::operator()(ImGuiStates& imgui_states, ConnectionData& connecti
                     ! parties_client_names.contains(imgui_states.selected_party))
                 {
                     imgui_states.selected_party = party_id;
-                    set_map_to_render(dat_manager, 0x1b97d, map_renderer);
+                    set_map_to_render(dat_manager, 0x1b97d, map_renderer); // TODO: use map hash from party
                 }
             }
             ImGui::EndChild();
