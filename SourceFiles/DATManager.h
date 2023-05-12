@@ -38,6 +38,7 @@ public:
     int get_num_files() { return m_dat.getNumFiles(); }
 
     std::vector<MFTEntry>& get_MFT() { return m_dat.get_MFT(); }
+    std::unordered_map<int, std::pair<int, MFTEntry*>>& get_hash_index() { return hash_index; }
 
     FFNA_MapFile parse_ffna_map_file(int index);
     FFNA_ModelFile parse_ffna_model_file(int index);
@@ -52,6 +53,8 @@ private:
 
     std::atomic<int> m_num_types_read{0};
     std::atomic<int> m_num_running_dat_reader_threads{0};
+
+    std::unordered_map<int, std::pair<int, MFTEntry*>> hash_index;
 
     void read_all_files();
 

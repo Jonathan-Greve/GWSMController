@@ -125,6 +125,14 @@ void DATManager::read_all_files()
     {
         thread.join();
     }
+
+    // Populate hash -> <index, mft_entry> map for fast lookups
+    const auto mft = m_dat.get_MFT();
+    for (int i = 0; i < mft.size(); i++)
+    {
+        auto* entry = m_dat.get_MFT_entry_ptr(i);
+        hash_index[entry->Hash] = std::make_pair(i, entry);
+    }
 }
 
 void DATManager::read_files_thread(Concurrency::concurrent_queue<int>& file_indices_queue)
