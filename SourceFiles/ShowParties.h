@@ -17,5 +17,6 @@ public:
     static inline float window_height;
 
     void operator()(ImGuiStates& imgui_states, ConnectionData& connection_data, PartyManager& party_manager,
-                    const std::array<GW_skill, 3432>& skills);
+                    const std::array<GW_skill, 3432>& skills, DATManager& dat_manager,
+                    MapRenderer* map_renderer);
 };

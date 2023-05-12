@@ -79,7 +79,8 @@ void ShowParties::built_unit_frame(const GWIPC::AgentLiving* agent_living, const
 }
 
 void ShowParties::operator()(ImGuiStates& imgui_states, ConnectionData& connection_data,
-                             PartyManager& party_manager, const std::array<GW_skill, 3432>& skills)
+                             PartyManager& party_manager, const std::array<GW_skill, 3432>& skills,
+                             DATManager& dat_manager, MapRenderer* map_renderer)
 {
 
     if (ImGui::Begin("Parties info", &imgui_states.is_party_window_open))
@@ -112,7 +113,7 @@ void ShowParties::operator()(ImGuiStates& imgui_states, ConnectionData& connecti
         // Right
         if (imgui_states.selected_party != InstancePartyId(0, 0))
         {
-            const auto& selected_party_ids = parties_client_names[imgui_states.selected_party];
+            const auto& selected_party_connection_ids = parties_client_names[imgui_states.selected_party];
 
             ImGui::BeginGroup();
             ImGui::BeginChild(
@@ -124,7 +125,7 @@ void ShowParties::operator()(ImGuiStates& imgui_states, ConnectionData& connecti
             {
                 if (ImGui::BeginTabItem("Unit frames"))
                 {
-                    for (const auto& id : selected_party_ids)
+                    for (const auto& id : selected_party_connection_ids)
                     {
                         const auto client_data = connection_data.get_client_data(id, client_data_buffer_);
                         if (client_data && client_data->character())

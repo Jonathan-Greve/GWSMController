@@ -1,3 +1,5 @@
+#pragma once
+
 struct PerObjectCB
 {
     DirectX::XMFLOAT4X4 world;

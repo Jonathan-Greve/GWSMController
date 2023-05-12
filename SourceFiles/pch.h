@@ -71,6 +71,8 @@
 #include "GWUnpacker.h"
 #include "AtexAsm.h"
 #include "AtexReader.h"
+#include "MapRenderer.h"
+#include "DATManager.h"
 
 #ifdef _DEBUG
 #include <dxgidebug.h>

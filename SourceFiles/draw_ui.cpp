@@ -25,7 +25,7 @@ void draw_ui(InitializationState initialization_state, int dat_files_to_read, in
         if (initialization_state == InitializationState::Completed)
         {
             ShowClientsConnected()(imgui_states, connection_data, skills);
-            ShowParties()(imgui_states, connection_data, party_manager, skills);
+            ShowParties()(imgui_states, connection_data, party_manager, skills, dat_manager, map_renderer);
         }
     }
 }

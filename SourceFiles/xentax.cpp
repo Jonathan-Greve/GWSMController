@@ -97,7 +97,7 @@ struct HuffmanData
     unsigned int Var1, Var2;
 };
 
-class Decompress
+class Decompressor
 {
 public:
     unsigned int ESIplus8, ESIplusC, ESIplus10;
@@ -761,6 +761,6 @@ public:
 
 void UnpackGWDat(unsigned char* input, int insize, unsigned char*& output, int& outsize)
 {
-    Decompress d;
+    Decompressor d;
     output = d.DecompressFile((unsigned int*)input, insize, outsize);
 }
