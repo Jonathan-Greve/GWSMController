@@ -30,10 +30,11 @@ public:
 
     ~TextureManager() { Clear(); }
 
-    int AddTexture(const void* data, UINT width, UINT height, DXGI_FORMAT format, int file_hash)
+    int AddTexture(const void* data, UINT width, UINT height, DXGI_FORMAT format, int texture_cache_id,
+                   bool ignore_texture_cache = false)
     {
-        if (cached_textures.contains(file_hash))
-            return cached_textures[file_hash];
+        if (! ignore_texture_cache && cached_textures.contains(texture_cache_id))
+            return cached_textures[texture_cache_id];
 
         if (! data || width <= 0 || height <= 0)
         {
@@ -82,9 +83,9 @@ public:
         int textureID = m_nextTextureID++;
         m_textures[textureID] = shaderResourceView;
 
-        if (file_hash >= 0)
+        if (texture_cache_id >= 0)
         {
-            cached_textures[file_hash] = textureID;
+            cached_textures[texture_cache_id] = textureID;
         }
 
         return textureID;
@@ -112,9 +113,9 @@ public:
         return nullptr;
     }
 
-    int GetTextureIdByHash(int file_hash) const
+    int GetTextureIdByTextureCacheId(int texture_cache_id) const
     {
-        auto it = cached_textures.find(file_hash);
+        auto it = cached_textures.find(texture_cache_id);
 
         if (it != cached_textures.end())
         {
@@ -169,6 +170,6 @@ private:
     ID3D11Device* m_device;
     ID3D11DeviceContext* m_deviceContext;
     int m_nextTextureID = 0;
-    std::unordered_map<int, int> cached_textures; // file hash -> texture id;
+    std::unordered_map<int, int> cached_textures; // texture cache id -> texture id;
     std::unordered_map<int, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> m_textures;
 };

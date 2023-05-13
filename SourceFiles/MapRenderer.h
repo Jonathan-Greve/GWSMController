@@ -13,6 +13,7 @@
 #include "BlendStateManager.h"
 #include "RasterizerStateManager.h"
 #include "DepthStencilStateManager.h"
+#include "GWIPC.h"
 
 using namespace DirectX;
 
@@ -178,6 +179,10 @@ public:
 
     void SetTerrain(std::unique_ptr<Terrain> terrain, int texture_atlas_id)
     {
+        // Clear GWSM data
+        m_agent_id_to_mesh_id_map.clear();
+        m_agent_id_to_texture_id_map.clear();
+
         if (m_is_terrain_mesh_set)
         {
             UnsetTerrain();
@@ -404,6 +409,51 @@ public:
         m_mesh_manager->Update(dt);
     }
 
+    void UpdateAgent(const GWIPC::Character* const character)
+    {
+        const auto* const agent = character->agent_living()->agent();
+        const auto it = m_agent_id_to_mesh_id_map.find(agent->agent_id());
+
+        int mesh_id = -1;
+
+        if (it == m_agent_id_to_mesh_id_map.end())
+        {
+            // First time agent seen. Add agent.
+            mesh_id =
+              m_mesh_manager->AddBox({agent->model_width(), agent->model_height(), agent->model_width()});
+
+            // Add a default texture
+            int texture_width = 100;
+            int texture_height = 100;
+            int tile_size = 10;
+            CheckerboardTexture checkerboard_texture(texture_width, texture_height, tile_size);
+            auto texture_id = m_texture_manager->AddTexture(
+              (void*)checkerboard_texture.getData().data(), texture_width, texture_height,
+              DXGI_FORMAT_R8G8B8A8_UNORM, agent->agent_id(), true);
+
+            m_mesh_manager->SetTexturesForMesh(mesh_id, {m_texture_manager->GetTexture(texture_id)}, 0);
+
+            // Store the mesh id to use in subsequent calls
+            m_agent_id_to_mesh_id_map[agent->agent_id()] = mesh_id;
+            m_agent_id_to_texture_id_map[agent->agent_id()] = texture_id;
+        }
+        else
+        {
+            mesh_id = it->second;
+        }
+
+        // Set the agent world position
+        DirectX::XMFLOAT4X4 boxWorldMatrix;
+        DirectX::XMStoreFloat4x4(
+          &boxWorldMatrix,
+          DirectX::XMMatrixTranslation(agent->position().x(), agent->position().y(), agent->position().z()));
+
+        PerObjectCB boxPerObjectData;
+        boxPerObjectData.world = boxWorldMatrix;
+        boxPerObjectData.num_uv_texture_pairs = 1;
+        m_mesh_manager->UpdateMeshPerObjectData(mesh_id, boxPerObjectData);
+    }
+
     void Render()
     {
         m_mesh_manager->Render(m_pixel_shaders, m_blend_state_manager.get(), m_rasterizer_state_manager.get(),
@@ -441,4 +491,8 @@ private:
 
     DirectionalLight m_directionalLight;
     bool m_per_frame_cb_changed = true;
+
+    // GWSM render
+    std::unordered_map<int, int> m_agent_id_to_mesh_id_map;
+    std::unordered_map<int, int> m_agent_id_to_texture_id_map;
 };

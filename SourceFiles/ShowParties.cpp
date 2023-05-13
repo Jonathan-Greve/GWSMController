@@ -131,8 +131,8 @@ void set_map_to_render(DATManager& dat_manager, int map_file_hash, MapRenderer* 
                             auto decoded_filename =
                               decode_filename(texture_filename.id0, texture_filename.id1);
 
-                            int texture_id =
-                              map_renderer->GetTextureManager()->GetTextureIdByHash(decoded_filename);
+                            int texture_id = map_renderer->GetTextureManager()->GetTextureIdByTextureCacheId(
+                              decoded_filename);
                             if (texture_id >= 0)
                             {
                                 texture_ids.push_back(texture_id);

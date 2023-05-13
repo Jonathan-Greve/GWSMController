@@ -104,7 +104,27 @@ void MapBrowser::Update(DX::StepTimer const& timer)
 
     float elapsedTime = float(timer.GetElapsedSeconds());
 
-    // TODO: Add your map browser logic here.
+    auto parties_client_names = m_party_manager.get_parties_client_names();
+    if (parties_client_names.size() > 0)
+    {
+        const auto it = parties_client_names.find(m_imgui_states.selected_party);
+        if (it != parties_client_names.end())
+        {
+            const auto party_client_names = it->second;
+            for (const auto& client_name : party_client_names)
+            {
+                static std::vector<uint8_t> client_data_buffer_ =
+                  std::vector<uint8_t>(GWIPC::CLIENTDATA_SIZE);
+                const auto* client_data = m_connection_data.get_client_data(client_name, client_data_buffer_);
+
+                if (client_data && client_data->character())
+                {
+                    m_map_renderer->UpdateAgent(client_data->character());
+                }
+            }
+        }
+    }
+
     m_map_renderer->Update(elapsedTime);
 }
 #pragma endregion
