@@ -414,13 +414,17 @@ public:
             m_mesh_manager->RemoveMesh(mesh_id);
         }
 
+        for (const auto& [agent_id, texture_id] : m_agent_id_to_texture_id_map)
+        {
+            m_texture_manager->RemoveTexture(texture_id);
+        }
+
         m_agent_id_to_mesh_id_map.clear();
         m_agent_id_to_texture_id_map.clear();
     }
 
-    void UpdateAgent(const GWIPC::AgentLiving* const agent_living, Color agent_color)
+    void UpdateAgent(const GWIPC::Agent* const agent, Color agent_color)
     {
-        const auto* const agent = agent_living->agent();
         const auto it = m_agent_id_to_mesh_id_map.find(agent->agent_id());
 
         int mesh_id = -1;
@@ -461,6 +465,12 @@ public:
         boxPerObjectData.world = boxWorldMatrix;
         boxPerObjectData.num_uv_texture_pairs = 1;
         m_mesh_manager->UpdateMeshPerObjectData(mesh_id, boxPerObjectData);
+    }
+
+    void UpdateAgentLiving(const GWIPC::AgentLiving* const agent_living, Color agent_color)
+    {
+        const auto* const agent = agent_living->agent();
+        UpdateAgent(agent, agent_color);
     }
 
     void Render()

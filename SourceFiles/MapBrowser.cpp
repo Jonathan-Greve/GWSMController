@@ -43,10 +43,8 @@ void MapBrowser::Initialize(HWND window, int width, int height)
 
     // TODO: Change the timer settings if you want something other than the default variable timestep mode.
     // e.g. for 60 FPS fixed timestep update logic, call:
-    /*
     m_timer.SetFixedTimeStep(true);
     m_timer.SetTargetElapsedSeconds(1.0 / 60);
-    */
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -124,11 +122,23 @@ void MapBrowser::Update(DX::StepTimer const& timer)
                   std::vector<uint8_t>(GWIPC::CLIENTDATA_SIZE);
                 const auto* client_data = m_connection_data.get_client_data(client_name, client_data_buffer_);
 
+                // Player
                 if (client_data && client_data->character() && client_data->character()->agent_living())
                 {
-                    m_map_renderer->UpdateAgent(client_data->character()->agent_living(), Color::Green);
+                    bool is_party_leader = client_data->character()->agent_living()->party_slot() == 0;
+                    if (is_party_leader)
+                    {
+                        m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
+                                                          Color::DarkGreen);
+                    }
+                    else
+                    {
+                        m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
+                                                          Color::Green);
+                    }
                 }
 
+                // Enemies
                 const auto* const enemies = client_data->enemies();
                 if (enemies != nullptr)
                 {
@@ -139,7 +149,100 @@ void MapBrowser::Update(DX::StepTimer const& timer)
 
                         if (enemy->agent_living())
                         {
-                            m_map_renderer->UpdateAgent(enemy->agent_living(), Color::Red);
+                            m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
+                        }
+                    }
+                }
+
+                // Gadgets
+                const auto* const gadgets = client_data->gadgets();
+                if (gadgets != nullptr)
+                {
+                    for (int i = 0; i < gadgets->size(); i++)
+                    {
+                        // Get enemy at index i
+                        const GWIPC::AgentGadget* gadget = gadgets->Get(i);
+
+                        if (gadget->agent())
+                        {
+                            m_map_renderer->UpdateAgent(gadget->agent(), Color::Blue);
+                        }
+                    }
+                }
+
+                // Items
+                const auto* const items = client_data->items();
+                if (items != nullptr)
+                {
+                    for (int i = 0; i < items->size(); i++)
+                    {
+                        // Get enemy at index i
+                        const GWIPC::AgentItem* item = items->Get(i);
+
+                        if (item->agent())
+                        {
+                            m_map_renderer->UpdateAgent(item->agent(), Color::Orange);
+                        }
+                    }
+                }
+
+                if (client_data->party())
+                {
+                    // Player members
+                    const auto* const player_members = client_data->party()->player_members();
+                    if (player_members != nullptr)
+                    {
+                        for (int i = 0; i < player_members->size(); i++)
+                        {
+                            // Get enemy at index i
+                            const GWIPC::AgentLiving* player_member = player_members->Get(i);
+
+                            bool is_party_leader = player_member->party_slot() == 0;
+                            if (is_party_leader)
+                            {
+                                m_map_renderer->UpdateAgentLiving(player_member, Color::DarkGreen);
+                            }
+                            else
+                            {
+                                m_map_renderer->UpdateAgentLiving(player_member, Color::Green);
+                            }
+                        }
+                    }
+
+                    // Henchman members
+                    const auto* const henchman_members = client_data->party()->henchman_members();
+                    if (henchman_members != nullptr)
+                    {
+                        for (int i = 0; i < henchman_members->size(); i++)
+                        {
+                            // Get enemy at index i
+                            const GWIPC::AgentLiving* henchman_member = henchman_members->Get(i);
+                            m_map_renderer->UpdateAgentLiving(henchman_member, Color::LightGreen);
+                        }
+                    }
+
+                    // Hero members
+                    const auto* const hero_members = client_data->party()->hero_members();
+                    if (hero_members != nullptr)
+                    {
+                        for (int i = 0; i < hero_members->size(); i++)
+                        {
+                            // Get enemy at index i
+                            const GWIPC::Hero* hero_member = hero_members->Get(i);
+                            if (hero_member->agent_living() != nullptr)
+                                m_map_renderer->UpdateAgentLiving(hero_member->agent_living(), Color::Pink);
+                        }
+                    }
+
+                    // Extra NPC members
+                    const auto* const extra_npc_members = client_data->party()->extra_npc_members();
+                    if (extra_npc_members != nullptr)
+                    {
+                        for (int i = 0; i < extra_npc_members->size(); i++)
+                        {
+                            // Get enemy at index i
+                            const GWIPC::AgentLiving* extra_npc_member = extra_npc_members->Get(i);
+                            m_map_renderer->UpdateAgentLiving(extra_npc_member, Color::Purple);
                         }
                     }
                 }
