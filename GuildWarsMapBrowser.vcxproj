@@ -185,6 +185,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BlendStateManager.h" />
+    <ClInclude Include="colors.h" />
     <ClInclude Include="DearImGui\imconfig.h" />
     <ClInclude Include="DearImGui\imgui.h" />
     <ClInclude Include="DearImGui\imgui_impl_dx11.h" />

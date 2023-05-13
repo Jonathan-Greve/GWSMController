@@ -179,15 +179,7 @@ public:
 
     void SetTerrain(std::unique_ptr<Terrain> terrain, int texture_atlas_id)
     {
-        // Clear GWSM data
-        for (const auto& [agent_id, mesh_id] : m_agent_id_to_mesh_id_map)
-        {
-            m_mesh_manager->RemoveMesh(mesh_id);
-        }
-
-        // Clear GWSM data
-        m_agent_id_to_mesh_id_map.clear();
-        m_agent_id_to_texture_id_map.clear();
+        ClearAgents();
 
         if (m_is_terrain_mesh_set)
         {
@@ -415,9 +407,20 @@ public:
         m_mesh_manager->Update(dt);
     }
 
-    void UpdateAgent(const GWIPC::Character* const character)
+    void ClearAgents()
     {
-        const auto* const agent = character->agent_living()->agent();
+        for (const auto& [agent_id, mesh_id] : m_agent_id_to_mesh_id_map)
+        {
+            m_mesh_manager->RemoveMesh(mesh_id);
+        }
+
+        m_agent_id_to_mesh_id_map.clear();
+        m_agent_id_to_texture_id_map.clear();
+    }
+
+    void UpdateAgent(const GWIPC::AgentLiving* const agent_living, Color agent_color)
+    {
+        const auto* const agent = agent_living->agent();
         const auto it = m_agent_id_to_mesh_id_map.find(agent->agent_id());
 
         int mesh_id = -1;
@@ -432,7 +435,7 @@ public:
             int texture_width = 100;
             int texture_height = 100;
             int tile_size = 10;
-            CheckerboardTexture checkerboard_texture(texture_width, texture_height, tile_size);
+            CheckerboardTexture checkerboard_texture(texture_width, texture_height, tile_size, agent_color);
             auto texture_id = m_texture_manager->AddTexture(
               (void*)checkerboard_texture.getData().data(), texture_width, texture_height,
               DXGI_FORMAT_R8G8B8A8_UNORM, agent->agent_id(), true);

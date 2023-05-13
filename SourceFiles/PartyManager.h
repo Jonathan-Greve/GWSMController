@@ -3,6 +3,7 @@
 #include "ConnectionData.h"
 
 extern bool is_shutting_down;
+extern bool party_members_changed;
 
 class PartyManager
 {
@@ -41,6 +42,11 @@ public:
                     managed_connected_client_ids_.erase(id);
                     remove_from_party(id);
                 }
+            }
+
+            if (diff.size() > 0)
+            {
+                party_members_changed = true;
             }
 
             // PartyId might not be valid yet such as if the dll was injected on

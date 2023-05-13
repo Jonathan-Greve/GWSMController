@@ -9,6 +9,7 @@
 using namespace DirectX;
 
 bool is_shutting_down = false;
+bool party_members_changed = false;
 
 #ifdef __clang__
 #pragma clang diagnostic ignored "-Wcovered-switch-default"

@@ -9,6 +9,7 @@
 #include "draw_ui.h"
 
 extern void ExitMapBrowser() noexcept;
+extern bool party_members_changed;
 
 using namespace DirectX;
 
@@ -105,6 +106,12 @@ void MapBrowser::Update(DX::StepTimer const& timer)
     float elapsedTime = float(timer.GetElapsedSeconds());
 
     auto parties_client_names = m_party_manager.get_parties_client_names();
+
+    if (party_members_changed)
+    {
+        m_map_renderer->ClearAgents();
+    }
+
     if (parties_client_names.size() > 0)
     {
         const auto it = parties_client_names.find(m_imgui_states.selected_party);
@@ -117,9 +124,24 @@ void MapBrowser::Update(DX::StepTimer const& timer)
                   std::vector<uint8_t>(GWIPC::CLIENTDATA_SIZE);
                 const auto* client_data = m_connection_data.get_client_data(client_name, client_data_buffer_);
 
-                if (client_data && client_data->character())
+                if (client_data && client_data->character() && client_data->character()->agent_living())
                 {
-                    m_map_renderer->UpdateAgent(client_data->character());
+                    m_map_renderer->UpdateAgent(client_data->character()->agent_living(), Color::Green);
+                }
+
+                const auto* const enemies = client_data->enemies();
+                if (enemies != nullptr)
+                {
+                    for (int i = 0; i < enemies->size(); i++)
+                    {
+                        // Get enemy at index i
+                        const GWIPC::Enemy* enemy = enemies->Get(i);
+
+                        if (enemy->agent_living())
+                        {
+                            m_map_renderer->UpdateAgent(enemy->agent_living(), Color::Red);
+                        }
+                    }
                 }
             }
         }

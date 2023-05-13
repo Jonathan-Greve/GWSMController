@@ -339,6 +339,9 @@
     <ClInclude Include="SourceFiles\ShowParties.h">
       <Filter>GUI</Filter>
     </ClInclude>
+    <ClInclude Include="colors.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DearImGui\imgui.cpp">
