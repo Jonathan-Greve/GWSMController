@@ -22,7 +22,7 @@ void draw_ui(InitializationState initialization_state, int dat_files_to_read, in
         {
             draw_dat_load_progress_bar(dat_files_to_read, dat_total_files);
         }
-        if (initialization_state == InitializationState::Completed)
+        if (initialization_state == InitializationState::Completed && dat_manager.get_hash_index().size() > 0)
         {
             ShowClientsConnected()(imgui_states, connection_data, skills);
             ShowParties()(imgui_states, connection_data, party_manager, skills, dat_manager, map_renderer);

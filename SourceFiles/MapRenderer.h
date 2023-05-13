@@ -180,6 +180,12 @@ public:
     void SetTerrain(std::unique_ptr<Terrain> terrain, int texture_atlas_id)
     {
         // Clear GWSM data
+        for (const auto& [agent_id, mesh_id] : m_agent_id_to_mesh_id_map)
+        {
+            m_mesh_manager->RemoveMesh(mesh_id);
+        }
+
+        // Clear GWSM data
         m_agent_id_to_mesh_id_map.clear();
         m_agent_id_to_texture_id_map.clear();
 

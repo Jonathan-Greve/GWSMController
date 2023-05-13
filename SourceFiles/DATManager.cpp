@@ -133,6 +133,8 @@ void DATManager::read_all_files()
         auto* entry = m_dat.get_MFT_entry_ptr(i);
         hash_index[entry->Hash] = std::make_pair(i, entry);
     }
+
+    m_initialization_state = InitializationState::Completed;
 }
 
 void DATManager::read_files_thread(Concurrency::concurrent_queue<int>& file_indices_queue)
@@ -152,9 +154,4 @@ void DATManager::read_files_thread(Concurrency::concurrent_queue<int>& file_indi
     CloseHandle(file_handle);
 
     auto remaining_threads = m_num_running_dat_reader_threads.fetch_sub(1, std::memory_order_relaxed);
-
-    if (file_indices_queue.empty())
-    {
-        m_initialization_state = InitializationState::Completed;
-    }
 }
