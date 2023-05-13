@@ -3,6 +3,8 @@
 #include "PartyManager.h"
 #include "ConnectionData.h"
 #include "ImGuiStates.h"
+#include "MapRenderer.h"
+#include "DATManager.h"
 
 class ShowParties
 {

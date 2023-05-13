@@ -1,6 +1,5 @@
 #pragma once
 #include "AtexReader.h"
-#include "DirectXTex/DirectXTex.h"
 
 inline UINT BytesPerPixel(DXGI_FORMAT format)
 {

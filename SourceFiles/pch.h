@@ -38,6 +38,7 @@
 
 #include <DirectXMath.h>
 #include <DirectXColors.h>
+#include "DirectXTex/DirectXTex.h"
 
 #include <algorithm>
 #include <cmath>
@@ -71,8 +72,6 @@
 #include "GWUnpacker.h"
 #include "AtexAsm.h"
 #include "AtexReader.h"
-#include "MapRenderer.h"
-#include "DATManager.h"
 
 #ifdef _DEBUG
 #include <dxgidebug.h>
