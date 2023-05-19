@@ -1,16 +1,27 @@
-Guild Wars Map Browser
-=====================
+# GWSMController - Guild Wars Shared Memory Controller
 
-Browse the Guild Wars .dat file. Included features:
-- Searching and filtering the internal files in the dat.
-- Rendering 3D terrains for all maps.
-- Fly around in and explore the maps in first person.
- 
- Here is an preview of Pre-searing near Old Ascalon City and the surrounding terrain:
-![Pre-searing Old Ascalon City](images/preview.png)
+GWSMController is a powerful DirectX 11 application developed based on the [GuildWarsMapBrowser](https://github.com/Jonathan-Greve/GuildWarsMapBrowser). It uses data from the [GWSM (Guild Wars Shared Memory)](https://github.com/yourUsername/GWSM) library to render in-game actors/agents on 3D maps.
 
+![GWSMController Preview](images/preview0.png)
 
-Credits:
-Decompressing the .dat file uses the source code from:
- - [GWDatBrowser]https://github.com/kytulendu/GWDatBrowser
-     - Specifically I use: AtexAsm.h/cpp, AtexReader.h/cpp, GWUnpacker.h/cpp, xentax.h/cpp
+This application provides an enriched, interactive, and visually appealing way of viewing and exploring Guild Wars environments in three dimensions.
+
+## Core Features of GWSMController
+
+- **Data Integration from GWSM:** GWSMController leverages the GWSM library for accessing shared data from the game. This enables the application to render in-game elements accurately in a 3D environment.
+- **3D Map Rendering:** By building upon the work done in the GuildWarsMapBrowser, GWSMController allows users to view detailed 3D maps pulled from the game, providing a unique perspective on the game's environments.
+- **Real-time Actor/Agent Rendering:** GWSMController can display in-game actors/agents on the 3D maps in real-time, providing an immersive and dynamic map viewing experience.
+
+You can watch this brief [demo video](https://www.youtube.com/watch?v=iyrrJm9KUsM) to see GWSMController in action.
+
+## How to Use GWSMController
+
+(Add usage and setup instructions here.)
+
+## Contributing
+
+While I appreciate pull requests, please note that I am not actively developing this library and may not merge them. However, feel free to fork the repository and adapt it to your needs.
+
+## Acknowledgments
+
+This application is built upon the foundational work done in [GuildWarsMapBrowser](https://github.com/Jonathan-Greve/GuildWarsMapBrowser) and [GWSM](https://github.com/yourUsername/GWSM). Many thanks to the authors and contributors of these projects for their significant contributions to the Guild Wars modding community.
