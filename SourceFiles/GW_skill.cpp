@@ -7,7 +7,7 @@ void GW_skill::load_gw_skill_data(std::array<GW_skill, 3432>& skills, ID3D11Devi
 {
 
     // Load GW skill images to textures for rendering
-    std::string path = "C:\\Users\\jonag\\source\\repos\\GWSMController\\SourceFiles\\cropped_skills";
+    std::string path = "cropped_skills";
     std::vector<std::string> filenames;
 
     get_filenames(path, filenames);
