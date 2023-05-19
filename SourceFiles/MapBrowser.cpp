@@ -149,7 +149,13 @@ void MapBrowser::Update(DX::StepTimer const& timer)
 
                         if (enemy->agent_living())
                         {
-                            m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
+                            if (enemy->agent_living()->health() > 0)
+                            {
+                                m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
+                            }
+                            else {
+                                m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::White);
+                            }
                         }
                     }
                 }

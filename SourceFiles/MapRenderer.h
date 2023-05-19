@@ -414,18 +414,24 @@ public:
             m_mesh_manager->RemoveMesh(mesh_id);
         }
 
+        for (const auto& [agent_id, mesh_id] : m_agent_id_to_line_mesh_id_map)
+        {
+            m_mesh_manager->RemoveMesh(mesh_id);
+        }
+
         for (const auto& [agent_id, texture_id] : m_agent_id_to_texture_id_map)
         {
             m_texture_manager->RemoveTexture(texture_id);
         }
 
         m_agent_id_to_mesh_id_map.clear();
+        m_agent_id_to_line_mesh_id_map.clear();
         m_agent_id_to_texture_id_map.clear();
     }
 
     void UpdateAgent(const GWIPC::Agent* const agent, Color agent_color)
     {
-        const auto it = m_agent_id_to_mesh_id_map.find(agent->agent_id());
+        auto it = m_agent_id_to_mesh_id_map.find(agent->agent_id());
 
         int mesh_id = -1;
 
@@ -465,12 +471,69 @@ public:
         boxPerObjectData.world = boxWorldMatrix;
         boxPerObjectData.num_uv_texture_pairs = 1;
         m_mesh_manager->UpdateMeshPerObjectData(mesh_id, boxPerObjectData);
+
+        // Direction line box (cuboid)
+        it = m_agent_id_to_line_mesh_id_map.find(agent->agent_id());
+        int line_mesh_id = -1;
+
+        if (it == m_agent_id_to_line_mesh_id_map.end())
+        {
+            // Add the box
+            const DirectX::XMFLOAT3 box_size = {1.0f, 1.0f, 1.0f};
+            line_mesh_id = m_mesh_manager->AddBox(box_size);
+            m_agent_id_to_line_mesh_id_map.insert({agent->agent_id(), line_mesh_id});
+        }
+        else
+        {
+            line_mesh_id = it->second;
+        }
+
+        // Set the box position and rotation
+        DirectX::XMFLOAT4X4 boxLineWorldMatrix;
+
+        // Adjust the scaling center by translating to origin before and after scaling
+        const float agent_rotation = agent->rotation();
+        DirectX::XMFLOAT3 start = {agent->position().x(), agent->position().y(), agent->position().z()};
+
+        DirectX::XMStoreFloat4x4(
+          &boxLineWorldMatrix,
+          DirectX::XMMatrixTranslation(0.5f, 0.0f, 0.0f) * // move pivot to negative z-face
+            DirectX::XMMatrixScaling(900.0f, 5.0f, 5.0f) * // scale the box
+            DirectX::XMMatrixRotationY(-agent_rotation) * // rotate the box
+            DirectX::XMMatrixTranslation(start.x, start.y + agent->model_height() / 2.0f,
+                                         start.z)); // translate to start position
+
+        PerObjectCB boxLinePerObjectData;
+        boxLinePerObjectData.world = boxLineWorldMatrix;
+        m_mesh_manager->UpdateMeshPerObjectData(line_mesh_id, boxLinePerObjectData);
     }
 
     void UpdateAgentLiving(const GWIPC::AgentLiving* const agent_living, Color agent_color)
     {
         const auto* const agent = agent_living->agent();
         UpdateAgent(agent, agent_color);
+    }
+
+    void UpdateCharacter(const GWIPC::Character* const character, Color agent_color)
+    {
+        const auto* const agent_living = character->agent_living();
+        if (agent_living)
+        {
+            const auto* const agent = agent_living->agent();
+            if (agent)
+            {
+                UpdateAgent(agent, agent_color);
+            }
+
+            const auto target_agent_id = character->target_agent_id();
+            if (target_agent_id >= 0)
+            {
+                const auto it = m_agent_id_to_mesh_id_map.find(target_agent_id);
+                if (it != m_agent_id_to_mesh_id_map.end())
+                {
+                }
+            }
+        }
     }
 
     void Render()
@@ -513,5 +576,6 @@ private:
 
     // GWSM render
     std::unordered_map<int, int> m_agent_id_to_mesh_id_map;
+    std::unordered_map<int, int> m_agent_id_to_line_mesh_id_map;
     std::unordered_map<int, int> m_agent_id_to_texture_id_map;
 };
