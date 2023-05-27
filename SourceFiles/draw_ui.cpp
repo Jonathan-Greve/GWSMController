@@ -4,13 +4,15 @@
 #include "draw_gui_for_open_dat_file.h"
 #include "ShowClientsConnected.h"
 #include "ShowParties.h"
+#include "Recorder.h"
+#include "ShowRecordAndReplayPanel.h"
 
 extern FileType selected_file_type;
 
 void draw_ui(InitializationState initialization_state, int dat_files_to_read, int dat_total_files,
              DATManager& dat_manager, MapRenderer* map_renderer, ImGuiStates& imgui_states,
              ConnectionData& connection_data, PartyManager& party_manager,
-             const std::array<GW_skill, 3432>& skills)
+             const std::array<GW_skill, 3432>& skills, Recorder& recorder)
 {
     if (! gw_dat_path_set)
     {
@@ -26,6 +28,7 @@ void draw_ui(InitializationState initialization_state, int dat_files_to_read, in
         {
             ShowClientsConnected()(imgui_states, connection_data, skills);
             ShowParties()(imgui_states, connection_data, party_manager, skills, dat_manager, map_renderer);
+            ShowRecordAndReplayPanel()(imgui_states, recorder);
         }
     }
 }

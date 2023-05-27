@@ -13,6 +13,7 @@
 #include "ConnectionData.h"
 #include "PartyManager.h"
 #include "ImGuiStates.h"
+#include "Recorder.h"
 
 // A basic MapBrowser implementation that creates a D3D11 device and
 // provides a MapBrowser loop.
@@ -83,4 +84,8 @@ private:
     std::array<GW_skill, 3432> m_skills;
 
     ImGuiStates m_imgui_states;
+
+
+    // Record and replay data
+    Recorder m_recorder;
 };

@@ -17,6 +17,7 @@ using Microsoft::WRL::ComPtr;
 
 MapBrowser::MapBrowser(InputManager* input_manager) noexcept(false)
     : m_input_manager(input_manager)
+    , m_recorder(m_connection_data)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -153,7 +154,8 @@ void MapBrowser::Update(DX::StepTimer const& timer)
                             {
                                 m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
                             }
-                            else {
+                            else
+                            {
                                 m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::White);
                             }
                         }
@@ -257,6 +259,7 @@ void MapBrowser::Update(DX::StepTimer const& timer)
     }
 
     m_map_renderer->Update(elapsedTime);
+    m_recorder.update();
 }
 #pragma endregion
 
@@ -283,7 +286,7 @@ void MapBrowser::Render()
 
     draw_ui(m_dat_manager.m_initialization_state, m_dat_manager.get_num_files_type_read(),
             m_dat_manager.get_num_files(), m_dat_manager, m_map_renderer.get(), m_imgui_states,
-            m_connection_data, m_party_manager, m_skills);
+            m_connection_data, m_party_manager, m_skills, m_recorder);
 
     static bool show_demo_window = false;
     if (show_demo_window)

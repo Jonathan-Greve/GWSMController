@@ -98,6 +98,12 @@
     <Filter Include="Party Manager thread">
       <UniqueIdentifier>{5a6b902c-60b6-4c31-97e1-ccbb6fa2866f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Record and replay">
+      <UniqueIdentifier>{60dfeb7c-c3b9-4f1a-8281-dbdca2bd0821}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI\Record and replay GUI">
+      <UniqueIdentifier>{81ccbc39-3858-4cfe-aa4c-d7350a3b462d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DearImGui\imconfig.h">
@@ -342,6 +348,12 @@
     <ClInclude Include="colors.h">
       <Filter>Common</Filter>
     </ClInclude>
+    <ClInclude Include="SourceFiles\Recorder.h">
+      <Filter>Record and replay</Filter>
+    </ClInclude>
+    <ClInclude Include="SourceFiles\ShowRecordAndReplayPanel.h">
+      <Filter>GUI\Record and replay GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DearImGui\imgui.cpp">
@@ -553,6 +565,12 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\ShowParties.cpp">
       <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\Recorder.cpp">
+      <Filter>Record and replay</Filter>
+    </ClCompile>
+    <ClCompile Include="SourceFiles\ShowRecordAndReplayPanel.cpp">
+      <Filter>GUI\Record and replay GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
