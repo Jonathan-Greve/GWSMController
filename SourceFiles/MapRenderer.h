@@ -463,9 +463,10 @@ public:
 
         // Set the agent world position
         DirectX::XMFLOAT4X4 boxWorldMatrix;
-        DirectX::XMStoreFloat4x4(
-          &boxWorldMatrix,
-          DirectX::XMMatrixTranslation(agent->position().x(), agent->position().y(), agent->position().z()));
+        DirectX::XMStoreFloat4x4(&boxWorldMatrix,
+                                 DirectX::XMMatrixTranslation(
+                                   agent->position().x(), agent->position().y() + agent->model_height() / 2.0,
+                                   agent->position().z()));
 
         PerObjectCB boxPerObjectData;
         boxPerObjectData.world = boxWorldMatrix;
