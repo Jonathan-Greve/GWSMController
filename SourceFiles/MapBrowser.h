@@ -14,6 +14,7 @@
 #include "PartyManager.h"
 #include "ImGuiStates.h"
 #include "Recorder.h"
+#include "Replayer.h"
 
 // A basic MapBrowser implementation that creates a D3D11 device and
 // provides a MapBrowser loop.
@@ -88,4 +89,5 @@ private:
 
     // Record and replay data
     Recorder m_recorder;
+    Replayer m_replayer;
 };

@@ -89,12 +89,13 @@ private:
             auto duration =
               std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
             insert_into_temp_data(reinterpret_cast<const char*>(&duration), sizeof(duration));
-            insert_into_temp_data(reinterpret_cast<const char*>(buf.data()), buf.size());
 
             // Write the length of the client_id string before the string itself
             auto client_id_length = client_id.size();
             insert_into_temp_data(reinterpret_cast<const char*>(&client_id_length), sizeof(client_id_length));
             insert_into_temp_data(client_id.c_str(), client_id_length);
+
+            insert_into_temp_data(reinterpret_cast<const char*>(buf.data()), buf.size());
         }
         previous_bufs_[client_id] = buf; // store the buf for next comparison
     }
@@ -114,6 +115,11 @@ private:
 
         if (compressed_data_size > 0)
         {
+            // Write uncompressed data size
+            size_t temp_data_size = temp_data_.size();
+            out_.write(reinterpret_cast<const char*>(&temp_data_size), sizeof(temp_data_size));
+
+            // Write compressed data
             out_.write(compressed_temp_data.data(), compressed_data_size);
         }
         else

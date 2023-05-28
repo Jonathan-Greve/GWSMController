@@ -107,6 +107,30 @@ public:
         return nullptr;
     }
 
+    void set_client_data(const std::string& connection_id, const std::vector<uint8_t>& buf)
+    {
+        auto sm = get_client_shared_memory(connection_id);
+        if (sm)
+        {
+            auto sm_data = sm->get_data();
+            if (sm_data)
+            {
+                GWIPC::SharedMemoryLock lock(*sm);
+                auto data_info = sm->get_data_info();
+                if (data_info && buf.size() <= data_info->data_size)
+                {
+                    memcpy(sm_data, buf.data(), buf.size());
+                    // Update data size in the data_info
+                    data_info->data_size = buf.size();
+                }
+                else
+                {
+                    // Handle error if the buffer size is too large.
+                }
+            }
+        }
+    }
+
 private:
     std::mutex connection_ids_mutex_;
 

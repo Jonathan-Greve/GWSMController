@@ -2,6 +2,7 @@
 #include <filesystem>
 #include "ImGuiStates.h"
 #include "Recorder.h"
+#include "Replayer.h"
 
 class ShowRecordAndReplayPanel
 {
@@ -13,7 +14,7 @@ public:
         fs::path recordDir = exePath / "GWSM-Recordings";
 
         // Create the directory if it doesn't exist
-        if (!fs::exists(recordDir))
+        if (! fs::exists(recordDir))
         {
             fs::create_directory(recordDir);
         }
@@ -21,8 +22,9 @@ public:
         recording_directory = recordDir.string();
     }
 
-    void operator()(ImGuiStates& imgui_states, Recorder& recorder);
+    void draw(ImGuiStates& imgui_states, Recorder& recorder, Replayer& replayer);
 
 private:
     std::string recording_directory;
+    std::string replay_filename = "";
 };

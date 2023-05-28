@@ -18,6 +18,7 @@ using Microsoft::WRL::ComPtr;
 MapBrowser::MapBrowser(InputManager* input_manager) noexcept(false)
     : m_input_manager(input_manager)
     , m_recorder(m_connection_data)
+    , m_replayer(m_connection_data)
 {
     m_deviceResources = std::make_unique<DX::DeviceResources>();
     // TODO: Provide parameters for swapchain format, depth/stencil format, and backbuffer count.
@@ -124,133 +125,137 @@ void MapBrowser::Update(DX::StepTimer const& timer)
                 const auto* client_data = m_connection_data.get_client_data(client_name, client_data_buffer_);
 
                 // Player
-                if (client_data && client_data->character() && client_data->character()->agent_living())
+                if (client_data)
                 {
-                    bool is_party_leader = client_data->character()->agent_living()->party_slot() == 0;
-                    if (is_party_leader)
+                    if (client_data->character() && client_data->character()->agent_living())
                     {
-                        m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
-                                                          Color::DarkGreen);
-                    }
-                    else
-                    {
-                        m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
-                                                          Color::Green);
-                    }
-                }
-
-                // Enemies
-                const auto* const enemies = client_data->enemies();
-                if (enemies != nullptr)
-                {
-                    for (int i = 0; i < enemies->size(); i++)
-                    {
-                        // Get enemy at index i
-                        const GWIPC::Enemy* enemy = enemies->Get(i);
-
-                        if (enemy->agent_living())
+                        bool is_party_leader = client_data->character()->agent_living()->party_slot() == 0;
+                        if (is_party_leader)
                         {
-                            if (enemy->agent_living()->health() > 0)
-                            {
-                                m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
-                            }
-                            else
-                            {
-                                m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::White);
-                            }
+                            m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
+                                                              Color::DarkGreen);
+                        }
+                        else
+                        {
+                            m_map_renderer->UpdateAgentLiving(client_data->character()->agent_living(),
+                                                              Color::Green);
                         }
                     }
-                }
 
-                // Gadgets
-                const auto* const gadgets = client_data->gadgets();
-                if (gadgets != nullptr)
-                {
-                    for (int i = 0; i < gadgets->size(); i++)
+                    // Enemies
+                    const auto* const enemies = client_data->enemies();
+                    if (enemies != nullptr)
                     {
-                        // Get enemy at index i
-                        const GWIPC::AgentGadget* gadget = gadgets->Get(i);
-
-                        if (gadget->agent())
-                        {
-                            m_map_renderer->UpdateAgent(gadget->agent(), Color::Blue);
-                        }
-                    }
-                }
-
-                // Items
-                const auto* const items = client_data->items();
-                if (items != nullptr)
-                {
-                    for (int i = 0; i < items->size(); i++)
-                    {
-                        // Get enemy at index i
-                        const GWIPC::AgentItem* item = items->Get(i);
-
-                        if (item->agent())
-                        {
-                            m_map_renderer->UpdateAgent(item->agent(), Color::Orange);
-                        }
-                    }
-                }
-
-                if (client_data->party())
-                {
-                    // Player members
-                    const auto* const player_members = client_data->party()->player_members();
-                    if (player_members != nullptr)
-                    {
-                        for (int i = 0; i < player_members->size(); i++)
+                        for (int i = 0; i < enemies->size(); i++)
                         {
                             // Get enemy at index i
-                            const GWIPC::AgentLiving* player_member = player_members->Get(i);
+                            const GWIPC::Enemy* enemy = enemies->Get(i);
 
-                            bool is_party_leader = player_member->party_slot() == 0;
-                            if (is_party_leader)
+                            if (enemy->agent_living())
                             {
-                                m_map_renderer->UpdateAgentLiving(player_member, Color::DarkGreen);
-                            }
-                            else
-                            {
-                                m_map_renderer->UpdateAgentLiving(player_member, Color::Green);
+                                if (enemy->agent_living()->health() > 0)
+                                {
+                                    m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::Red);
+                                }
+                                else
+                                {
+                                    m_map_renderer->UpdateAgentLiving(enemy->agent_living(), Color::White);
+                                }
                             }
                         }
                     }
 
-                    // Henchman members
-                    const auto* const henchman_members = client_data->party()->henchman_members();
-                    if (henchman_members != nullptr)
+                    // Gadgets
+                    const auto* const gadgets = client_data->gadgets();
+                    if (gadgets != nullptr)
                     {
-                        for (int i = 0; i < henchman_members->size(); i++)
+                        for (int i = 0; i < gadgets->size(); i++)
                         {
                             // Get enemy at index i
-                            const GWIPC::AgentLiving* henchman_member = henchman_members->Get(i);
-                            m_map_renderer->UpdateAgentLiving(henchman_member, Color::LightGreen);
+                            const GWIPC::AgentGadget* gadget = gadgets->Get(i);
+
+                            if (gadget->agent())
+                            {
+                                m_map_renderer->UpdateAgent(gadget->agent(), Color::Blue);
+                            }
                         }
                     }
 
-                    // Hero members
-                    const auto* const hero_members = client_data->party()->hero_members();
-                    if (hero_members != nullptr)
+                    // Items
+                    const auto* const items = client_data->items();
+                    if (items != nullptr)
                     {
-                        for (int i = 0; i < hero_members->size(); i++)
+                        for (int i = 0; i < items->size(); i++)
                         {
                             // Get enemy at index i
-                            const GWIPC::Hero* hero_member = hero_members->Get(i);
-                            if (hero_member->agent_living() != nullptr)
-                                m_map_renderer->UpdateAgentLiving(hero_member->agent_living(), Color::Pink);
+                            const GWIPC::AgentItem* item = items->Get(i);
+
+                            if (item->agent())
+                            {
+                                m_map_renderer->UpdateAgent(item->agent(), Color::Orange);
+                            }
                         }
                     }
 
-                    // Extra NPC members
-                    const auto* const extra_npc_members = client_data->party()->extra_npc_members();
-                    if (extra_npc_members != nullptr)
+                    if (client_data->party())
                     {
-                        for (int i = 0; i < extra_npc_members->size(); i++)
+                        // Player members
+                        const auto* const player_members = client_data->party()->player_members();
+                        if (player_members != nullptr)
                         {
-                            // Get enemy at index i
-                            const GWIPC::AgentLiving* extra_npc_member = extra_npc_members->Get(i);
-                            m_map_renderer->UpdateAgentLiving(extra_npc_member, Color::Purple);
+                            for (int i = 0; i < player_members->size(); i++)
+                            {
+                                // Get enemy at index i
+                                const GWIPC::AgentLiving* player_member = player_members->Get(i);
+
+                                bool is_party_leader = player_member->party_slot() == 0;
+                                if (is_party_leader)
+                                {
+                                    m_map_renderer->UpdateAgentLiving(player_member, Color::DarkGreen);
+                                }
+                                else
+                                {
+                                    m_map_renderer->UpdateAgentLiving(player_member, Color::Green);
+                                }
+                            }
+                        }
+
+                        // Henchman members
+                        const auto* const henchman_members = client_data->party()->henchman_members();
+                        if (henchman_members != nullptr)
+                        {
+                            for (int i = 0; i < henchman_members->size(); i++)
+                            {
+                                // Get enemy at index i
+                                const GWIPC::AgentLiving* henchman_member = henchman_members->Get(i);
+                                m_map_renderer->UpdateAgentLiving(henchman_member, Color::LightGreen);
+                            }
+                        }
+
+                        // Hero members
+                        const auto* const hero_members = client_data->party()->hero_members();
+                        if (hero_members != nullptr)
+                        {
+                            for (int i = 0; i < hero_members->size(); i++)
+                            {
+                                // Get enemy at index i
+                                const GWIPC::Hero* hero_member = hero_members->Get(i);
+                                if (hero_member->agent_living() != nullptr)
+                                    m_map_renderer->UpdateAgentLiving(hero_member->agent_living(),
+                                                                      Color::Pink);
+                            }
+                        }
+
+                        // Extra NPC members
+                        const auto* const extra_npc_members = client_data->party()->extra_npc_members();
+                        if (extra_npc_members != nullptr)
+                        {
+                            for (int i = 0; i < extra_npc_members->size(); i++)
+                            {
+                                // Get enemy at index i
+                                const GWIPC::AgentLiving* extra_npc_member = extra_npc_members->Get(i);
+                                m_map_renderer->UpdateAgentLiving(extra_npc_member, Color::Purple);
+                            }
                         }
                     }
                 }
@@ -260,6 +265,7 @@ void MapBrowser::Update(DX::StepTimer const& timer)
 
     m_map_renderer->Update(elapsedTime);
     m_recorder.update();
+    m_replayer.update();
 }
 #pragma endregion
 
@@ -286,7 +292,7 @@ void MapBrowser::Render()
 
     draw_ui(m_dat_manager.m_initialization_state, m_dat_manager.get_num_files_type_read(),
             m_dat_manager.get_num_files(), m_dat_manager, m_map_renderer.get(), m_imgui_states,
-            m_connection_data, m_party_manager, m_skills, m_recorder);
+            m_connection_data, m_party_manager, m_skills, m_recorder, m_replayer);
 
     static bool show_demo_window = false;
     if (show_demo_window)
