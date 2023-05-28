@@ -4,6 +4,9 @@
 #include <fstream>
 #include <lz4.h>
 
+inline extern bool is_replaying_ext = false;
+extern bool is_map_ready_to_render;
+
 class Replayer
 {
 public:
@@ -15,6 +18,18 @@ public:
     void start(const std::string& filename)
     {
         is_replaying_ = true;
+        is_replaying_ext = true;
+
+        // Lock the connection manager mutex to prevent new connections and disconnections
+        // while replaying. We will restore the connection ids after replay is complete
+        // before releasing the lock.
+        WaitForSingleObject(connection_manager_.get_mutex_handle(), INFINITE);
+
+        // Get the current connected clients that we will restore after replay is complete
+        old_connected_client_ids = connection_manager_.get_connections_ids();
+
+        connection_manager_.clear_all_connections();
+
         in_.open(filename, std::ios::binary);
 
         // Clear any previous data
@@ -41,15 +56,39 @@ public:
 
     void stop()
     {
-        is_replaying_ = false;
         if (in_.is_open())
         {
             in_.close();
         }
+
+        // Restore connection ids
+        connection_manager_.clear_all_connections();
+
+        connection_manager_.connect_multiple(old_connected_client_ids);
+
+        is_replaying_ = false;
+        is_replaying_ext = false;
+        ReleaseMutex(connection_manager_.get_mutex_handle());
     }
 
     void update()
     {
+        static bool prev_frame_not_ready = false;
+
+        if (! is_map_ready_to_render)
+        {
+            prev_frame_not_ready = true;
+        }
+        else
+        {
+            if (prev_frame_not_ready)
+            {
+                start_time_ = std::chrono::high_resolution_clock::now();
+            }
+
+            prev_frame_not_ready = false;
+        }
+
         if (is_replaying_)
         {
             if (can_read_frame())
@@ -58,11 +97,14 @@ public:
                 auto now = std::chrono::high_resolution_clock::now();
                 auto elapsed_time = now - start_time_;
 
-                if (next_frame.time <= start_time_ + elapsed_time)
+                if ((next_frame.time - timestamps_[0]) <= elapsed_time)
                 {
                     auto frame = get_next_frame();
                     connection_data_.set_client_data(frame.client_id, frame.buf);
                     current_time_ = frame.time;
+
+                    // Add or remove connected clients
+                    connection_manager_.connect_multiple({frame.client_id});
                 }
             }
             else
@@ -89,7 +131,7 @@ public:
 
     double get_total_duration() const
     {
-        auto duration = get_last_timestamp() - start_time_;
+        auto duration = get_last_timestamp() - get_first_timestamp();
         return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() / 1000.0;
     }
 
@@ -112,6 +154,11 @@ private:
     std::vector<char> temp_data_;
     std::vector<char> uncompressed_data_;
     size_t read_position_ = 0;
+
+    // Restore connection ids after replay is complete
+    std::vector<std::string> old_connected_client_ids;
+
+    GWIPC::ConnectionManager connection_manager_;
 
     struct Frame
     {
@@ -171,23 +218,27 @@ private:
     {
         Frame frame;
 
-        // Extract and erase timestamp
+        // Extract timestamp
         long long duration;
         std::memcpy(&duration, uncompressed_data_.data() + read_position_, sizeof(duration));
         frame.time = std::chrono::high_resolution_clock::time_point(std::chrono::milliseconds(duration));
         read_position_ += sizeof(duration);
 
-        // Extract and erase size of client_id
+        // Extract size of client_id
         size_t client_id_length;
         std::memcpy(&client_id_length, uncompressed_data_.data() + read_position_, sizeof(client_id_length));
         read_position_ += sizeof(client_id_length);
 
-        // Extract and erase client_id
+        // Extract client_id
         frame.client_id = std::string(uncompressed_data_.data() + read_position_, client_id_length);
         read_position_ += client_id_length;
 
+        // Extract buffer size
+        int buf_size = 0;
+        std::memcpy(&buf_size, uncompressed_data_.data() + read_position_, sizeof(buf_size));
+        read_position_ += sizeof(buf_size);
+
         // The remaining data in the frame is the buffer
-        size_t buf_size = GWIPC::CLIENTDATA_SIZE;
         frame.buf = std::vector<uint8_t>(uncompressed_data_.data() + read_position_,
                                          uncompressed_data_.data() + read_position_ + buf_size);
         read_position_ += buf_size;

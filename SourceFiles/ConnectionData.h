@@ -1,6 +1,8 @@
 #pragma once
 extern bool is_shutting_down;
 
+extern bool is_replaying_ext;
+
 class ConnectionData
 {
 public:
@@ -22,20 +24,37 @@ public:
     }
 
     // Update data. Blocking until connection data changes.
+    // We use is_replaying to skip a mutex lock when replaying a recording.
+    // This is because the replayer holds the mutex while replaying to avoid clients connecting or disconnecting.
+    // It restores the client connection state after replaying and releases the mutex. But that means we should
+    // skip waiting for the mutex while replaying.
     void run()
     {
         while (! is_shutting_down)
         {
             // Wait for event to be signaled
-            auto wait_result = WaitForSingleObject(m_connections_shared_memory.get_event_handle(), INFINITE);
-            if (is_shutting_down || wait_result != WAIT_OBJECT_0)
-                return;
+            if (! is_replaying_ext)
+            {
+                auto wait_result =
+                  WaitForSingleObject(m_connections_shared_memory.get_event_handle(), INFINITE);
+                if (is_shutting_down || wait_result != WAIT_OBJECT_0)
+                    return;
+            }
 
-            // Then lock mutex before accessing shared memory data
-            WaitForSingleObject(m_connections_shared_memory.get_mutex_handle(), INFINITE);
+            // Then lock mutex before accessing shared memory data (or skip if replaying)
+
+            if (! is_replaying_ext)
+            {
+                WaitForSingleObject(m_connections_shared_memory.get_mutex_handle(), INFINITE);
+            }
+
             auto connection_ids = m_connections_shared_memory.get_connections_ids();
             ResetEvent(m_connections_shared_memory.get_event_handle());
-            ReleaseMutex(m_connections_shared_memory.get_mutex_handle());
+
+            if (! is_replaying_ext)
+            {
+                ReleaseMutex(m_connections_shared_memory.get_mutex_handle());
+            }
 
             std::set<std::string> new_connection_ids(connection_ids.begin(), connection_ids.end());
 
@@ -107,9 +126,10 @@ public:
         return nullptr;
     }
 
-    void set_client_data(const std::string& connection_id, const std::vector<uint8_t>& buf)
+    const GWIPC::ClientData* get_client_data(std::string connection_id, std::vector<uint8_t>& buf,
+                                             int* size_out)
     {
-        auto sm = get_client_shared_memory(connection_id);
+        const auto sm = get_client_shared_memory(connection_id);
         if (sm)
         {
             auto sm_data = sm->get_data();
@@ -117,17 +137,27 @@ public:
             {
                 GWIPC::SharedMemoryLock lock(*sm);
                 auto data_info = sm->get_data_info();
-                if (data_info && buf.size() <= data_info->data_size)
+                if (data_info)
                 {
-                    memcpy(sm_data, buf.data(), buf.size());
-                    // Update data size in the data_info
-                    data_info->data_size = buf.size();
-                }
-                else
-                {
-                    // Handle error if the buffer size is too large.
+                    memcpy(buf.data(), sm_data, data_info->data_size);
+                    auto client_data = GWIPC::GetClientData(buf.data());
+
+                    *size_out = data_info->data_size;
+                    return client_data;
                 }
             }
+        }
+
+        return nullptr;
+    }
+
+    void set_client_data(const std::string& connection_id, const std::vector<uint8_t>& buf)
+    {
+        auto sm = get_client_shared_memory(connection_id);
+        if (sm)
+        {
+            GWIPC::SharedMemoryLock lock(*sm);
+            sm->write_data(buf.data(), buf.size());
         }
     }
 

@@ -29,6 +29,7 @@ public:
         if (out_.is_open())
         {
             compress_and_write_data();
+            out_.flush();
             out_.close();
         }
     }
@@ -41,17 +42,15 @@ public:
             for (const auto& client_id : connection_data_.get_connected_client_ids())
             {
                 std::vector<uint8_t> buf(GWIPC::CLIENTDATA_SIZE);
-                const GWIPC::ClientData* client_data = connection_data_.get_client_data(client_id, buf);
-                if (client_data)
+                int data_size = 0;
+                const GWIPC::ClientData* client_data =
+                  connection_data_.get_client_data(client_id, buf, &data_size);
+
+                buf.resize(data_size);
+                if (client_data && buf.size() > 0)
                 {
                     handle_client_data(now, client_id, buf);
                 }
-            }
-            update_counter_++;
-            if (update_counter_ == 300)
-            {
-                compress_and_write_data();
-                update_counter_ = 0;
             }
         }
     }
@@ -95,7 +94,9 @@ private:
             insert_into_temp_data(reinterpret_cast<const char*>(&client_id_length), sizeof(client_id_length));
             insert_into_temp_data(client_id.c_str(), client_id_length);
 
-            insert_into_temp_data(reinterpret_cast<const char*>(buf.data()), buf.size());
+            auto buf_size = buf.size();
+            insert_into_temp_data(reinterpret_cast<const char*>(&buf_size), sizeof(buf_size));
+            insert_into_temp_data(reinterpret_cast<const char*>(buf.data()), buf_size);
         }
         previous_bufs_[client_id] = buf; // store the buf for next comparison
     }

@@ -2,8 +2,12 @@
 #include "ShowParties.h"
 #include "maps_constant_data.h"
 
+extern bool is_map_ready_to_render = false;
+
 void set_map_to_render(DATManager& dat_manager, int map_file_hash, MapRenderer* map_renderer)
 {
+    is_map_ready_to_render = false;
+
     const auto hash_index = dat_manager.get_hash_index();
 
     const auto it = hash_index.find(map_file_hash);
@@ -237,6 +241,8 @@ void set_map_to_render(DATManager& dat_manager, int map_file_hash, MapRenderer* 
                                   0);
                             }
                         }
+
+                        is_map_ready_to_render = true;
                     }
                 }
             }

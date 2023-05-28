@@ -94,10 +94,13 @@ void ShowRecordAndReplayPanel::draw(ImGuiStates& imgui_states, Recorder& recorde
     if (replayer.GetIsReplaying())
     {
         auto current_timestamp = replayer.get_current_timestamp();
-        auto elapsed_time = replayer.get_elapsed_time_seconds();
+        auto elapsed_time = static_cast<float>(replayer.get_elapsed_time_seconds());
+        auto total_duration = static_cast<float>(replayer.get_total_duration());
+
         ImGui::Text("Current timestamp: %f",
-                    std::chrono::duration<double, std::milli>(current_timestamp.time_since_epoch()).count());
+                    std::chrono::duration<float, std::milli>(current_timestamp.time_since_epoch()).count());
         ImGui::Text("Elapsed time: %f s", elapsed_time);
+        ImGui::Text("Total duration : %f s", total_duration);
     }
 
     // Seek bar
