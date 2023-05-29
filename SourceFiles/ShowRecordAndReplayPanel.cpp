@@ -118,6 +118,32 @@ void ShowRecordAndReplayPanel::draw(ImGuiStates& imgui_states, Recorder& recorde
         }
     }
 
+    // Pause/resume replay button
+    if (! replayer.GetIsReplaying())
+    {
+        ImGui::PushStyleVar(ImGuiStyleVar_Alpha, ImGui::GetStyle().Alpha * 0.5f);
+        if (replayer.get_is_paused())
+        {
+            ImGui::Button("Resume replay");
+        }
+        else
+        {
+            ImGui::Button("Pause replay");
+        }
+        ImGui::PopStyleVar();
+    }
+    else
+    {
+        if (replayer.get_is_paused() && ImGui::Button("Resume replay"))
+        {
+            replayer.resume();
+        }
+        else if (ImGui::Button("Pause replay"))
+        {
+            replayer.pause();
+        }
+    }
+
     // Stop replay button
     if (! replayer.GetIsReplaying())
     {
@@ -133,6 +159,9 @@ void ShowRecordAndReplayPanel::draw(ImGuiStates& imgui_states, Recorder& recorde
             imgui_states.is_replaying = false;
         }
     }
+
+    ImGui::Checkbox("Pause on Last Frame", &imgui_states.pause_on_last_frame);
+    replayer.set_pause_on_last_frame(imgui_states.pause_on_last_frame);
 
     ImGui::End();
 }

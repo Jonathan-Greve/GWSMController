@@ -36,7 +36,7 @@ public:
         temp_data_.clear();
         uncompressed_data_.clear();
         read_position_ = 0;
-        timestamps_.clear();
+        frame_positions_.clear();
 
         // Start the replay timer
         start_time_ = std::chrono::high_resolution_clock::now();
@@ -44,14 +44,13 @@ public:
         // Read and decompress data
         read_and_decompress_data();
 
-        // Loop over frames to fill timestamps_ and find last_timestamp_
-        size_t original_read_position = read_position_;
         while (can_read_frame())
         {
             auto frame = get_next_frame();
-            timestamps_.push_back(frame.time);
+            frame_positions_.push_back({frame.time, read_position_});
         }
-        read_position_ = original_read_position; // Restore the read position
+
+        read_position_ = 0; // Restore the read position
     }
 
     void stop()
@@ -69,6 +68,14 @@ public:
         is_replaying_ = false;
         is_replaying_ext = false;
         ReleaseMutex(connection_manager_.get_mutex_handle());
+    }
+
+    void pause() { is_paused_ = true; }
+    void resume() { is_paused_ = false; }
+
+    void set_pause_on_last_frame(bool should_pause_on_last_frame)
+    {
+        should_pause_on_last_frame_ = should_pause_on_last_frame;
     }
 
     void update()
@@ -89,7 +96,7 @@ public:
             prev_frame_not_ready = false;
         }
 
-        if (is_replaying_)
+        if (is_replaying_ && ! is_paused_)
         {
             if (can_read_frame())
             {
@@ -97,11 +104,15 @@ public:
                 auto now = std::chrono::high_resolution_clock::now();
                 auto elapsed_time = now - start_time_;
 
-                if ((next_frame.time - timestamps_[0]) <= elapsed_time)
+                if ((next_frame.time - frame_positions_[0].time) <= elapsed_time)
                 {
                     auto frame = get_next_frame();
                     connection_data_.set_client_data(frame.client_id, frame.buf);
                     current_time_ = frame.time;
+
+                    // Adjust start_time_ to account for any time that was spent waiting for the map to be ready
+                    start_time_ =
+                      std::chrono::high_resolution_clock::now() - (frame.time - get_first_timestamp());
 
                     // Add or remove connected clients
                     connection_manager_.connect_multiple({frame.client_id});
@@ -109,7 +120,14 @@ public:
             }
             else
             {
-                stop();
+                if (should_pause_on_last_frame_)
+                {
+                    pause();
+                }
+                else
+                {
+                    stop();
+                }
             }
         }
     }
@@ -119,15 +137,19 @@ public:
     double get_elapsed_time_seconds() const
     {
         auto now = std::chrono::high_resolution_clock::now();
-        auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time_);
+        auto elapsed_time =
+          std::chrono::duration_cast<std::chrono::milliseconds>(current_time_ - get_first_timestamp());
         return elapsed_time.count() / 1000.0; // convert milliseconds to seconds
     }
 
     std::chrono::high_resolution_clock::time_point get_last_timestamp() const
     {
-        return timestamps_[timestamps_.size() - 1];
+        return frame_positions_[frame_positions_.size() - 1].time;
     }
-    std::chrono::high_resolution_clock::time_point get_first_timestamp() const { return timestamps_[0]; }
+    std::chrono::high_resolution_clock::time_point get_first_timestamp() const
+    {
+        return frame_positions_[0].time;
+    }
 
     double get_total_duration() const
     {
@@ -137,18 +159,28 @@ public:
 
     void set_frame_by_timestamp(std::chrono::high_resolution_clock::time_point timestamp)
     {
-        auto nearest_it = std::upper_bound(timestamps_.begin(), timestamps_.end(), timestamp);
-        if (nearest_it != timestamps_.begin())
+        auto nearest_it = std::upper_bound(frame_positions_.begin(), frame_positions_.end(), timestamp,
+                                           [](const auto& timestamp, const auto& frame_pos)
+                                           { return timestamp < frame_pos.time; });
+        if (nearest_it != frame_positions_.begin())
             --nearest_it; // Find the largest element less than or equal to timestamp
-        auto index = std::distance(timestamps_.begin(), nearest_it);
-        read_position_ = index * (sizeof(long long) + sizeof(size_t) + GWIPC::CLIENTDATA_SIZE);
+        read_position_ = nearest_it->position;
+
+        start_time_ = std::chrono::high_resolution_clock::now() - (nearest_it->time - get_first_timestamp());
     }
 
     bool GetIsReplaying() { return is_replaying_; }
 
+    bool get_is_paused() {
+        return is_paused_;
+    }
+
 private:
     ConnectionData& connection_data_;
     bool is_replaying_ = false;
+    bool is_paused_ = false;
+    bool should_pause_on_last_frame_ = false;
+
     std::ifstream in_;
 
     std::vector<char> temp_data_;
@@ -167,10 +199,16 @@ private:
         std::chrono::high_resolution_clock::time_point time;
     };
 
+    struct FramePosition
+    {
+        std::chrono::high_resolution_clock::time_point time;
+        size_t position;
+    };
+
     std::chrono::high_resolution_clock::time_point start_time_;
     std::chrono::high_resolution_clock::time_point current_time_;
 
-    std::vector<std::chrono::high_resolution_clock::time_point> timestamps_;
+    std::vector<FramePosition> frame_positions_;
 
     Frame peek_next_frame()
     {
@@ -209,9 +247,10 @@ private:
     bool can_read_frame() const
     {
         // Each frame needs to contain a timestamp (represented by a long long int),
-        // the size of the client_id string (size_t), the client_id itself and the buffer.
-        // If the remaining data is less than the size of timestamp + size of client_id, return false
-        return read_position_ + sizeof(long long) + sizeof(size_t) <= uncompressed_data_.size();
+        // the size of the client_id string (size_t), the client_id itself,
+        // the sizeof the buffer and the buffer.
+        // If the remaining data is less than the size of timestamp + size of client_id + size of int (buffer), return false
+        return read_position_ + sizeof(long long) + sizeof(size_t) + sizeof(int) <= uncompressed_data_.size();
     }
 
     Frame get_next_frame()

@@ -6,4 +6,5 @@ struct ImGuiStates
     InstancePartyId selected_party = InstancePartyId(0, 0);
     bool is_replaying = false;
     bool is_recording = false;
+    bool pause_on_last_frame = false;
 };
