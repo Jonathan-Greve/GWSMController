@@ -160,14 +160,16 @@ public:
     void set_frame_by_timestamp(std::chrono::high_resolution_clock::time_point timestamp)
     {
         auto nearest_it = std::upper_bound(frame_positions_.begin(), frame_positions_.end(), timestamp,
-                                           [](const auto& timestamp, const auto& frame_pos)
-                                           { return timestamp < frame_pos.time; });
+            [](const auto& timestamp, const auto& frame_pos)
+            { return timestamp < frame_pos.time; });
         if (nearest_it != frame_positions_.begin())
             --nearest_it; // Find the largest element less than or equal to timestamp
         read_position_ = nearest_it->position;
 
+        current_time_ = nearest_it->time;
         start_time_ = std::chrono::high_resolution_clock::now() - (nearest_it->time - get_first_timestamp());
     }
+
 
     bool GetIsReplaying() { return is_replaying_; }
 
