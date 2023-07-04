@@ -28,16 +28,19 @@ public:
                 bool only_send_active_quest_description = update_options->only_send_active_quest_description();
                 bool only_send_active_quest_objectives = update_options->only_send_active_quest_objectives();
                 bool should_update_client_data = update_options->should_update_client_data();
+                bool should_render = update_options->should_render();
 
                 if (ImGui::Checkbox((connection_id + ": only send active quest description").c_str(), &only_send_active_quest_description) ||
                     ImGui::Checkbox((connection_id + ": only send active quest objectives").c_str(), &only_send_active_quest_objectives) ||
-                    ImGui::Checkbox((connection_id + ": should update client data").c_str(), &should_update_client_data))
+                    ImGui::Checkbox((connection_id + ": should update client data").c_str(), &should_update_client_data) ||
+                    ImGui::Checkbox((connection_id + ": should render").c_str(), &should_render ))
                 {
                     connection_data.set_update_options_for_connection(
                         connection_id,
                         only_send_active_quest_description,
                         only_send_active_quest_objectives,
-                        should_update_client_data);
+                        should_update_client_data, 
+                        should_render);
                 }
             }
         }

@@ -178,25 +178,21 @@ public:
         {
             return it->second->get_update_options();
         }
-
         return nullptr;
     }
 
     void set_update_options_for_connection(const std::string& connection_id,
-        bool only_send_active_quest_description,
-        bool only_send_active_quest_objectives,
-        bool should_update_client_data)
+                                           bool only_send_active_quest_description,
+                                           bool only_send_active_quest_objectives,
+                                           bool should_update_client_data, bool should_render)
     {
         auto it = update_options_managers.find(connection_id);
         if (it != update_options_managers.end())
         {
-            it->second->update(
-                only_send_active_quest_description,
-                only_send_active_quest_objectives,
-                should_update_client_data);
+            it->second->update(only_send_active_quest_description, only_send_active_quest_objectives,
+                               should_update_client_data, should_render);
         }
     }
-
 
 private:
     std::mutex connection_ids_mutex_;
