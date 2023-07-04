@@ -357,6 +357,9 @@
     <ClInclude Include="SourceFiles\Replayer.h">
       <Filter>Record and replay</Filter>
     </ClInclude>
+    <ClInclude Include="ShowUpdateOptionsPanel.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DearImGui\imgui.cpp">
@@ -577,6 +580,9 @@
     </ClCompile>
     <ClCompile Include="SourceFiles\Replayer.cpp">
       <Filter>Record and replay</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowUpdateOptionsPanel.cpp">
+      <Filter>GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

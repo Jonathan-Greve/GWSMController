@@ -80,6 +80,13 @@ public:
                         it->second->terminate();
                         client_sm.erase(it);
                     }
+
+                    const auto it_update = update_options_managers.find(id);
+                    if (it_update != update_options_managers.end())
+                    {
+                        it_update->second->terminate();
+                        update_options_managers.erase(it_update);
+                    }
                 }
                 // Add new connections and create_or_open shared memory for client
                 else
@@ -90,6 +97,9 @@ public:
                     }
                     auto pClientData = std::make_unique<GWIPC::SharedMemory>(id, GWIPC::CLIENTDATA_SIZE);
                     client_sm.try_emplace(id, std::move(pClientData));
+
+                    auto pUpdateOptionsManager = std::make_unique<GWIPC::UpdateOptionsManager>(id);
+                    update_options_managers.try_emplace(id, std::move(pUpdateOptionsManager));
                 }
             }
             // Assert that our locally cached set of connection match the one in shared memory
@@ -161,6 +171,33 @@ public:
         }
     }
 
+    const GWIPC::UpdateOptions* get_update_options_for_connection(const std::string& connection_id)
+    {
+        const auto it = update_options_managers.find(connection_id);
+        if (it != update_options_managers.end())
+        {
+            return it->second->get_update_options();
+        }
+
+        return nullptr;
+    }
+
+    void set_update_options_for_connection(const std::string& connection_id,
+        bool only_send_active_quest_description,
+        bool only_send_active_quest_objectives,
+        bool should_update_client_data)
+    {
+        auto it = update_options_managers.find(connection_id);
+        if (it != update_options_managers.end())
+        {
+            it->second->update(
+                only_send_active_quest_description,
+                only_send_active_quest_objectives,
+                should_update_client_data);
+        }
+    }
+
+
 private:
     std::mutex connection_ids_mutex_;
 
@@ -168,6 +205,8 @@ private:
 
     // Hold the shared memory objects containing the client data
     std::unordered_map<std::string, std::unique_ptr<GWIPC::SharedMemory>> client_sm;
+
+    std::unordered_map<std::string, std::unique_ptr<GWIPC::UpdateOptionsManager>> update_options_managers;
 
     // Contains the email addresses of the connected clients.
     std::set<std::string> m_connection_ids;

@@ -7,10 +7,12 @@
 #include "Recorder.h"
 #include "Replayer.h"
 #include "ShowRecordAndReplayPanel.h"
+#include "ShowUpdateOptionsPanel.h"
 
 extern FileType selected_file_type;
 
 auto show_record_and_replay = ShowRecordAndReplayPanel();
+auto show_update_options_panel = ShowUpdateOptionsPanel();
 
 void draw_ui(InitializationState initialization_state, int dat_files_to_read, int dat_total_files,
              DATManager& dat_manager, MapRenderer* map_renderer, ImGuiStates& imgui_states,
@@ -32,6 +34,7 @@ void draw_ui(InitializationState initialization_state, int dat_files_to_read, in
             ShowClientsConnected()(imgui_states, connection_data, skills);
             ShowParties()(imgui_states, connection_data, party_manager, skills, dat_manager, map_renderer);
             show_record_and_replay.draw(imgui_states, recorder, replayer);
+            show_update_options_panel.draw(imgui_states, connection_data);
         }
     }
 }
